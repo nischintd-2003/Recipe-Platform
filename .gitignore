@@ -1,0 +1,43 @@
+
+# Dependencies
+
+node_modules/
+
+
+# Build outputs
+
+dist/
+build/
+coverage/
+
+
+# Environment variables
+
+.env
+.env.*
+!.env.example
+
+
+# Logs
+
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# OS / Editor
+
+.DS_Store
+.vscode/
+.idea/
+
+
+# TypeScript
+
+*.tsbuildinfo
+
+
+# Docker
+
+docker-data/
