@@ -1,10 +1,10 @@
 import express, { Application } from "express";
+import cors from "cors";
 
 const app: Application = express();
-app.use(express.json());
 
-app.get("/health", (_, res) => {
-  res.json({ status: "ok" });
-});
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 export default app;
