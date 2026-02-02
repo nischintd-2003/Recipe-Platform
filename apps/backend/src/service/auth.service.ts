@@ -8,7 +8,11 @@ import { AppError } from "../utils/app.error.js";
 const SALT_ROUNDS = 10;
 
 export class AuthService {
-  async signup(name: string, email: string, password: string): Promise<User> {
+  static async signup(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<User> {
     const existingUser = await UserRepository.findByEmail(email);
     if (existingUser) {
       throw new AppError("User already exists with this email", 409);
@@ -25,7 +29,7 @@ export class AuthService {
     return UserRepository.save(user);
   }
 
-  async login(email: string, password: string) {
+  static async login(email: string, password: string) {
     const user = await UserRepository.findByEmail(email);
     if (!user) {
       throw new AppError("Invalid email or password", 401);
