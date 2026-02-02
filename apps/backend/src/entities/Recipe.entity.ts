@@ -15,19 +15,19 @@ export class Recipe {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   title!: string;
 
-  @Column("text")
+  @Column({ type: "text" })
   ingredients!: string;
 
-  @Column("text")
+  @Column({ type: "text" })
   steps!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   imageUrl!: string;
 
-  @Column()
+  @Column({ type: "int" })
   prepTime!: number;
 
   @ManyToOne(() => User, (user) => user.recipes, { onDelete: "CASCADE" })

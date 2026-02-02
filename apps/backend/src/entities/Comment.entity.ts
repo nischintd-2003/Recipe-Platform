@@ -13,7 +13,7 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column("text")
+  @Column({ type: "text" })
   content!: string;
 
   @ManyToOne(() => User, (user) => user.comments, { onDelete: "CASCADE" })
