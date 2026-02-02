@@ -1,0 +1,18 @@
+import { Request, Response } from "express";
+import { AppError } from "../utils/app.error.js";
+
+export function errorMiddleware(err: Error, _req: Request, res: Response) {
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+
+  console.error("Unexpected Error", err);
+
+  res.status(500).json({
+    status: "error",
+    message: "Internal Server Error",
+  });
+}
