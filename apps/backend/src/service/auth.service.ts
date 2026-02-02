@@ -1,4 +1,6 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { env } from "../config/env.js";
 import { UserRepository } from "../repositories/user.repository.js";
 import { User } from "../entities/User.entity.js";
 import { AppError } from "../utils/app.error.js";
@@ -21,5 +23,23 @@ export class AuthService {
     });
 
     return UserRepository.save(user);
+  }
+
+  async login(email: string, password: string) {
+    const user = await UserRepository.findByEmail(email);
+    if (!user) {
+      throw new AppError("Invalid email or password", 401);
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new AppError("Invalid email or password", 401);
+    }
+    const token = jwt.sign(
+      { userId: user.id, email: user.email },
+      env.JWT_SECRET,
+      { expiresIn: "3d" },
+    );
+
+    return { user, token };
   }
 }
