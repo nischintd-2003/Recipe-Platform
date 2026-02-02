@@ -8,5 +8,9 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.get("/test", (_, res) => {
+  res.json({ status: "ok" });
+});
+
 app.use(errorMiddleware);
 export default app;
