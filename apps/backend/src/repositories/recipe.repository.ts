@@ -63,4 +63,12 @@ export class RecipeRepository {
       throw new AppError("Failed to update recipe", 500);
     }
   }
+
+  async deleteRecipe(id: number) {
+    try {
+      return this.repository.delete({ id });
+    } catch {
+      throw new AppError("Failed to delete recipe", 500);
+    }
+  }
 }

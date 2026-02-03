@@ -12,6 +12,12 @@ recipeRouter.get("/:recipeId", RecipeController.getRecipeById);
 recipeRouter.post("/", authMiddleware, RecipeController.createRecipe);
 recipeRouter.patch("/:recipeId", authMiddleware, RecipeController.updateRecipe);
 
+recipeRouter.delete(
+  "/:recipeId",
+  authMiddleware,
+  RecipeController.deleteRecipe,
+);
+
 recipeRouter.use("/:recipeId/rate", ratingRouter);
 recipeRouter.use("/:recipeId/comment", commentRouter);
 

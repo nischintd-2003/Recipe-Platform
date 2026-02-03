@@ -89,4 +89,18 @@ export class RecipeService {
 
     return recipeRepo.updateRecipe(recipeId, updateData);
   }
+
+  static async deleteRecipe(recipeId: number, userId: number) {
+    const recipeRepo = new RecipeRepository();
+
+    const recipe = await recipeRepo.getRecipeById(recipeId);
+    if (!recipe) {
+      throw new AppError("Recipe not found", 404);
+    }
+
+    if (recipe.user.id !== userId) {
+      throw new AppError("You are not allowed to delete this recipe", 403);
+    }
+    await recipeRepo.deleteRecipe(recipeId);
+  }
 }

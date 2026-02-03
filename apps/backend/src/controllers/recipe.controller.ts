@@ -48,4 +48,13 @@ export class RecipeController {
 
     res.status(200).json(updated);
   }
+
+  static async deleteRecipe(req: AuthRequest, res: Response) {
+    const recipeId = Number(req.params.recipeId);
+    const userId = Number(req.user?.userId);
+
+    await RecipeService.deleteRecipe(recipeId, userId);
+
+    res.status(204).send();
+  }
 }
