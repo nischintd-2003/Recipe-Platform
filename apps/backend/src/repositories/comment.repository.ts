@@ -1,17 +1,22 @@
 import { AppDataSource } from "../config/datasource.js";
 import { Comment } from "../entities/Comment.entity.js";
+import { AppError } from "../utils/app.error.js";
 
 export class CommentRepository {
   private repo = AppDataSource.getRepository(Comment);
 
   createComment(content: string, userId: number, recipeId: number) {
-    const comment = this.repo.create({
-      content,
-      user: { id: userId },
-      recipe: { id: recipeId },
-    });
+    try {
+      const comment = this.repo.create({
+        content,
+        user: { id: userId },
+        recipe: { id: recipeId },
+      });
 
-    return this.repo.save(comment);
+      return this.repo.save(comment);
+    } catch {
+      throw new AppError("Failed to add comment", 500);
+    }
   }
 
   getByRecipe(recipeId: number) {
@@ -30,11 +35,19 @@ export class CommentRepository {
   }
 
   async updateComment(commentId: number, content: string) {
-    await this.repo.update({ id: commentId }, { content });
-    return this.findById(commentId);
+    try {
+      await this.repo.update({ id: commentId }, { content });
+      return this.findById(commentId);
+    } catch {
+      throw new AppError("Failed to update comment", 500);
+    }
   }
 
   async deleteComment(commentId: number) {
-    return this.repo.delete({ id: commentId });
+    try {
+      return this.repo.delete({ id: commentId });
+    } catch {
+      throw new AppError("Failed to update comment", 500);
+    }
   }
 }
