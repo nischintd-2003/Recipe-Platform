@@ -21,4 +21,21 @@ export class RatingRepository {
     });
     return this.repo.save(rating);
   }
+
+  async getAverageForRecipe(recipeId: number) {
+    const result = await this.repo
+      .createQueryBuilder("rating")
+      .select("AVG(rating.value)", "average")
+      .addSelect("COUNT(rating.id)", "count")
+      .where("rating.recipeId = :recipeId", { recipeId })
+      .getRawOne<{
+        average: string | null;
+        count: string;
+      }>();
+
+    return {
+      averageRating: result?.average ? Number(result.average) : 0,
+      ratingCount: Number(result?.count),
+    };
+  }
 }

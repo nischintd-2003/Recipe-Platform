@@ -1,6 +1,7 @@
 import { AppDataSource } from "../config/datasource.js";
 import { User } from "../entities/User.entity.js";
 import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
+import { RatingRepository } from "../repositories/rating.repository.js";
 import { RecipeRepository } from "../repositories/recipe.repository.js";
 import { AppError } from "../utils/app.error.js";
 
@@ -16,19 +17,42 @@ export class RecipeService {
     const recipeRepository = new RecipeRepository();
     return recipeRepository.createRecipe(data);
   }
-  static async getAllRecipe() {
-    const recipeRepository = new RecipeRepository();
-    return recipeRepository.getAllRecipes();
+
+  static async getAllRecipes() {
+    const recipeRepo = new RecipeRepository();
+    const ratingRepo = new RatingRepository();
+
+    const recipes = await recipeRepo.getAllRecipes();
+
+    return Promise.all(
+      recipes.map(async (recipe) => {
+        const rating = await ratingRepo.getAverageForRecipe(recipe.id);
+
+        return {
+          ...recipe,
+          averageRating: rating.averageRating,
+          ratingCount: rating.ratingCount,
+        };
+      }),
+    );
   }
 
   static async getRecipeById(id: number) {
-    const recipeRepository = new RecipeRepository();
+    const recipeRepo = new RecipeRepository();
+    const ratingRepo = new RatingRepository();
 
-    const recipe = await recipeRepository.getRecipeById(id);
+    const recipe = await recipeRepo.getRecipeById(id);
 
     if (!recipe) {
       throw new AppError("Recipe not found", 404);
     }
-    return recipe;
+
+    const rating = await ratingRepo.getAverageForRecipe(recipe.id);
+
+    return {
+      ...recipe,
+      averageRating: rating.averageRating,
+      ratingCount: rating.ratingCount,
+    };
   }
 }

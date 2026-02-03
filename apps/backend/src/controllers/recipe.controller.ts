@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { AuthRequest } from "../interfaces/authRequest.interface.js";
 import { AppError } from "../utils/app.error.js";
 import { RecipeService } from "../service/recipe.service.js";
@@ -26,7 +26,7 @@ export class RecipeController {
   }
 
   static async getAllRecipes(_req: Request, res: Response) {
-    const recipes = await RecipeService.getAllRecipe();
+    const recipes = await RecipeService.getAllRecipes();
     res.status(200).json(recipes);
   }
 
