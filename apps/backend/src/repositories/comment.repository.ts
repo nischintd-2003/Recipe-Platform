@@ -33,4 +33,8 @@ export class CommentRepository {
     await this.repo.update({ id: commentId }, { content });
     return this.findById(commentId);
   }
+
+  async deleteComment(commentId: number) {
+    return this.repo.delete({ id: commentId });
+  }
 }

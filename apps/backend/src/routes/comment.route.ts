@@ -13,4 +13,10 @@ commentRouter.patch(
   CommentController.updateComment,
 );
 
+commentRouter.delete(
+  "/:commentId",
+  authMiddleware,
+  CommentController.deleteComment,
+);
+
 export default commentRouter;

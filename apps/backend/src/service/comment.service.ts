@@ -46,4 +46,23 @@ export class CommentService {
 
     return commentRepo.updateComment(commentId, content);
   }
+
+  static async deleteComment(
+    recipeId: number,
+    commentId: number,
+    userId: number,
+  ) {
+    const commentRepo = new CommentRepository();
+
+    const comment = await commentRepo.findById(commentId);
+    if (!comment || comment.recipe.id !== recipeId) {
+      throw new AppError("Comment not found", 404);
+    }
+
+    if (comment.user.id !== userId) {
+      throw new AppError("You are not allowed to delete this comment", 403);
+    }
+
+    await commentRepo.deleteComment(commentId);
+  }
 }

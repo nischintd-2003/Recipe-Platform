@@ -12,6 +12,7 @@ export class CommentController {
 
     res.status(201).json(comment);
   }
+
   static async getComments(req: Request, res: Response) {
     const recipeId = Number(req.params.recipeId);
 
@@ -19,6 +20,7 @@ export class CommentController {
 
     res.status(200).json(comments);
   }
+
   static async updateComment(req: AuthRequest, res: Response) {
     const { recipeId, commentId } = req.params;
     const { content } = req.body;
@@ -32,5 +34,18 @@ export class CommentController {
     );
 
     res.status(200).json(updated);
+  }
+
+  static async deleteComment(req: AuthRequest, res: Response) {
+    const { recipeId, commentId } = req.params;
+    const userId = req.user!.userId;
+
+    await CommentService.deleteComment(
+      Number(recipeId),
+      Number(commentId),
+      userId,
+    );
+
+    res.status(204).send();
   }
 }
