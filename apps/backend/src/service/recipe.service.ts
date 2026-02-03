@@ -16,4 +16,8 @@ export class RecipeService {
     const recipeRepository = new RecipeRepository();
     return recipeRepository.createRecipe(data);
   }
+  static async getAllRecipe() {
+    const recipeRepository = new RecipeRepository();
+    return recipeRepository.getAllRecipes();
+  }
 }

@@ -30,4 +30,17 @@ export class RecipeRepository {
       throw new AppError("Failed to create recipe", 500);
     }
   }
+
+  async getAllRecipes(): Promise<Recipe[]> {
+    try {
+      return await this.repository.find({
+        relations: ["user"],
+        order: {
+          createdAt: "DESC",
+        },
+      });
+    } catch {
+      throw new AppError("Failed to fetch recipe", 500);
+    }
+  }
 }

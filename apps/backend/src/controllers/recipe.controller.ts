@@ -24,4 +24,9 @@ export class RecipeController {
 
     res.status(201).json(recipe);
   }
+
+  static async getAllRecipes(_req: Request, res: Response) {
+    const recipes = await RecipeService.getAllRecipe();
+    res.status(200).json(recipes);
+  }
 }

@@ -4,6 +4,8 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const recipeRouter: Router = Router();
 
+recipeRouter.get("/", RecipeController.getAllRecipes);
+
 recipeRouter.post("/", authMiddleware, RecipeController.createRecipe);
 
 export default recipeRouter;
