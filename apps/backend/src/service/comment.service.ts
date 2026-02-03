@@ -14,4 +14,16 @@ export class CommentService {
 
     return commentRepo.createComment(content, userId, recipeId);
   }
+
+  static async getComments(recipeId: number) {
+    const recipeRepo = new RecipeRepository();
+    const commentRepo = new CommentRepository();
+
+    const recipe = await recipeRepo.getRecipeById(recipeId);
+    if (!recipe) {
+      throw new AppError("Recipe not found", 404);
+    }
+
+    return commentRepo.getByRecipe(recipeId);
+  }
 }

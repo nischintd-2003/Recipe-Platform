@@ -1,4 +1,4 @@
-import { Response} from "express";
+import { Request, Response } from "express";
 import { AuthRequest } from "../interfaces/authRequest.interface.js";
 import { CommentService } from "../service/comment.service.js";
 
@@ -11,5 +11,12 @@ export class CommentController {
     const comment = await CommentService.addComment(recipeId, userId, content);
 
     res.status(201).json(comment);
+  }
+  static async getComments(req: Request, res: Response) {
+    const recipeId = Number(req.params.id);
+
+    const comments = await CommentService.getComments(recipeId);
+
+    res.status(200).json(comments);
   }
 }

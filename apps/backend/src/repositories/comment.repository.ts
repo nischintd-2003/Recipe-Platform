@@ -13,4 +13,12 @@ export class CommentRepository {
 
     return this.repo.save(comment);
   }
+
+  getByRecipe(recipeId: number) {
+    return this.repo.find({
+      where: { recipe: { id: recipeId } },
+      relations: ["user"],
+      order: { createdAt: "DESC" },
+    });
+  }
 }
