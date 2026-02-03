@@ -35,4 +35,17 @@ export class RecipeController {
     const recipe = await RecipeService.getRecipeById(recipeId);
     res.status(200).json(recipe);
   }
+
+  static async updateRecipe(req: AuthRequest, res: Response) {
+    const recipeId = Number(req.params.recipeId);
+    const userId = Number(req.user?.userId);
+
+    const updated = await RecipeService.updateRecipe(
+      recipeId,
+      userId,
+      req.body,
+    );
+
+    res.status(200).json(updated);
+  }
 }

@@ -10,6 +10,7 @@ recipeRouter.get("/", RecipeController.getAllRecipes);
 recipeRouter.get("/:recipeId", RecipeController.getRecipeById);
 
 recipeRouter.post("/", authMiddleware, RecipeController.createRecipe);
+recipeRouter.patch("/:recipeId", authMiddleware, RecipeController.updateRecipe);
 
 recipeRouter.use("/:recipeId/rate", ratingRouter);
 recipeRouter.use("/:recipeId/comment", commentRouter);

@@ -54,4 +54,13 @@ export class RecipeRepository {
       throw new AppError("Failed to fetch recipe", 500);
     }
   }
+
+  async updateRecipe(id: number, data: Partial<Recipe>) {
+    try {
+      await this.repository.update({ id }, data);
+      return this.getRecipeById(id);
+    } catch {
+      throw new AppError("Failed to update recipe", 500);
+    }
+  }
 }

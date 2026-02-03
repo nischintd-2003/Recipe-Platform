@@ -1,4 +1,5 @@
 import { AppDataSource } from "../config/datasource.js";
+import { Recipe } from "../entities/Recipe.entity.js";
 import { User } from "../entities/User.entity.js";
 import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
 import { RatingRepository } from "../repositories/rating.repository.js";
@@ -54,5 +55,38 @@ export class RecipeService {
       averageRating: rating.averageRating,
       ratingCount: rating.ratingCount,
     };
+  }
+
+  static async updateRecipe(
+    recipeId: number,
+    userId: number,
+    data: {
+      title?: string;
+      ingredients?: string;
+      steps?: string;
+      prepTime?: number;
+      image?: string;
+    },
+  ) {
+    const recipeRepo = new RecipeRepository();
+
+    const recipe = await recipeRepo.getRecipeById(recipeId);
+    if (!recipe) {
+      throw new AppError("Recipe not found", 404);
+    }
+
+    if (recipe.user.id !== userId) {
+      throw new AppError("You are not allowed to update this recipe", 403);
+    }
+
+    const updateData: Partial<Recipe> = {};
+
+    if (data.title) updateData.title = data.title;
+    if (data.ingredients) updateData.ingredients = data.ingredients;
+    if (data.steps) updateData.steps = data.steps;
+    if (data.prepTime !== undefined) updateData.prepTime = data.prepTime;
+    if (data.image) updateData.imageUrl = data.image;
+
+    return recipeRepo.updateRecipe(recipeId, updateData);
   }
 }
