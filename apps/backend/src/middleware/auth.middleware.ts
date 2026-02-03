@@ -3,7 +3,7 @@ import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { AuthRequest } from "../interfaces/authRequest.interface.js";
 import { AppError } from "../utils/app.error.js";
-import { JwtPayload } from "../interfaces/jwtpayload.interface.js";
+import { JwtPayload } from "../interfaces/jwtPayload.interface.js";
 
 export const authMiddleware = (
   req: AuthRequest,
