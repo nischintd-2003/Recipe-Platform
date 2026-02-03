@@ -7,4 +7,10 @@ const commentRouter: Router = Router({ mergeParams: true });
 commentRouter.post("/", authMiddleware, CommentController.addComment);
 commentRouter.get("/", CommentController.getComments);
 
+commentRouter.patch(
+  "/:commentId",
+  authMiddleware,
+  CommentController.updateComment,
+);
+
 export default commentRouter;

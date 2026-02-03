@@ -4,7 +4,7 @@ import { RatingService } from "../service/rating.service.js";
 
 export class RatingController {
   static async rateRecipe(req: AuthRequest, res: Response) {
-    const recipeId = Number(req.params.id);
+    const recipeId = Number(req.params.recipeId);
     const userId = req.user!.userId;
     const { value } = req.body;
 

@@ -7,11 +7,11 @@ import commentRouter from "./comment.route.js";
 const recipeRouter: Router = Router();
 
 recipeRouter.get("/", RecipeController.getAllRecipes);
-recipeRouter.get("/:id", RecipeController.getRecipeById);
+recipeRouter.get("/:recipeId", RecipeController.getRecipeById);
 
 recipeRouter.post("/", authMiddleware, RecipeController.createRecipe);
 
-recipeRouter.use("/:id/rate", ratingRouter);
-recipeRouter.use("/:id/comment", commentRouter);
+recipeRouter.use("/:recipeId/rate", ratingRouter);
+recipeRouter.use("/:recipeId/comment", commentRouter);
 
 export default recipeRouter;

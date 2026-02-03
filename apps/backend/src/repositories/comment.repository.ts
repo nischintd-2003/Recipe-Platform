@@ -21,4 +21,16 @@ export class CommentRepository {
       order: { createdAt: "DESC" },
     });
   }
+
+  async findById(commentId: number) {
+    return this.repo.findOne({
+      where: { id: commentId },
+      relations: ["user", "recipe"],
+    });
+  }
+
+  async updateComment(commentId: number, content: string) {
+    await this.repo.update({ id: commentId }, { content });
+    return this.findById(commentId);
+  }
 }

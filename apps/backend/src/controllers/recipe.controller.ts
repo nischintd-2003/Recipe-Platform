@@ -31,7 +31,7 @@ export class RecipeController {
   }
 
   static async getRecipeById(req: Request, res: Response) {
-    const recipeId = Number(req.params.id);
+    const recipeId = Number(req.params.recipeId);
     const recipe = await RecipeService.getRecipeById(recipeId);
     res.status(200).json(recipe);
   }
