@@ -20,4 +20,15 @@ export class RecipeService {
     const recipeRepository = new RecipeRepository();
     return recipeRepository.getAllRecipes();
   }
+
+  static async getRecipeById(id: number) {
+    const recipeRepository = new RecipeRepository();
+
+    const recipe = await recipeRepository.getRecipeById(id);
+
+    if (!recipe) {
+      throw new AppError("Recipe not found", 404);
+    }
+    return recipe;
+  }
 }

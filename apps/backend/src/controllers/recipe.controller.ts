@@ -29,4 +29,10 @@ export class RecipeController {
     const recipes = await RecipeService.getAllRecipe();
     res.status(200).json(recipes);
   }
+
+  static async getRecipeById(req: Request, res: Response) {
+    const recipeId = Number(req.params.id);
+    const recipe = await RecipeService.getRecipeById(recipeId);
+    res.status(200).json(recipe);
+  }
 }

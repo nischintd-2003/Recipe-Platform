@@ -40,6 +40,17 @@ export class RecipeRepository {
         },
       });
     } catch {
+      throw new AppError("Failed to fetch recipes", 500);
+    }
+  }
+
+  async getRecipeById(id: number) {
+    try {
+      return await this.repository.findOne({
+        where: { id },
+        relations: ["user"],
+      });
+    } catch {
       throw new AppError("Failed to fetch recipe", 500);
     }
   }
