@@ -8,6 +8,7 @@ import favoriteRouter from "./favorite.route.js";
 const recipeRouter: Router = Router();
 
 recipeRouter.get("/", RecipeController.getAllRecipes);
+recipeRouter.get("/user", authMiddleware, RecipeController.getAllRecipesOfUser);
 recipeRouter.get("/:recipeId", RecipeController.getRecipeById);
 
 recipeRouter.post("/", authMiddleware, RecipeController.createRecipe);

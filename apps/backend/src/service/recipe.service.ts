@@ -25,6 +25,11 @@ export class RecipeService {
     return recipeRepo.searchAndFilter(filters);
   }
 
+  static async getAllRecipesOfUser(userId: number) {
+    const recipeRepo = new RecipeRepository();
+    return recipeRepo.getAllRecipesOfUser(userId);
+  }
+
   static async getRecipeById(id: number) {
     const recipeRepo = new RecipeRepository();
     const ratingRepo = new RatingRepository();

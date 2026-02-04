@@ -32,16 +32,21 @@ export class RecipeRepository {
     }
   }
 
-  async getAllRecipes(): Promise<Recipe[]> {
+  async getAllRecipesOfUser(userId: number): Promise<Recipe[]> {
     try {
       return await this.repository.find({
-        relations: ["user"],
+        where: {
+          user: { id: userId },
+        },
+        relations: {
+          user: true,
+        },
         order: {
           createdAt: "DESC",
         },
       });
     } catch {
-      throw new AppError("Failed to fetch recipes", 500);
+      throw new AppError("Failed to fetch user recipes", 500);
     }
   }
 
