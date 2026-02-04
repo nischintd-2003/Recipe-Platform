@@ -110,11 +110,11 @@ export class RecipeRepository {
     }
 
     if (minRating !== undefined) {
-      qb.andWhere("recipe.rating >= :minRating", { minRating });
+      qb.andHaving("AVG(rating.value) >= :minRating", { minRating });
     }
 
     if (maxPrepTime !== undefined) {
-      qb.andWhere("AVG(rating.value) <= :maxPrepTime", { maxPrepTime });
+      qb.andWhere("recipe.prepTime <= :maxPrepTime", { maxPrepTime });
     }
 
     if (sort === "rating") {

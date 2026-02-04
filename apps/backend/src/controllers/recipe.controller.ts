@@ -25,8 +25,8 @@ export class RecipeController {
     res.status(201).json(recipe);
   }
 
-  static async getAllRecipes(_req: Request, res: Response) {
-    const recipes = await RecipeService.getAllRecipes();
+  static async getAllRecipes(req: Request, res: Response) {
+    const recipes = await RecipeService.getAllRecipes(req.query);
     res.status(200).json(recipes);
   }
 
