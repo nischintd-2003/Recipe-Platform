@@ -4,6 +4,7 @@ import { User } from "../entities/User.entity.js";
 import { Recipe } from "../entities/Recipe.entity.js";
 import { Rating } from "../entities/Rating.entity.js";
 import { Comment } from "../entities/Comment.entity.js";
+import { Favorite } from "../entities/Favorite.entity.js";
 
 export const AppDataSource = new DataSource({
   type: "mysql",
@@ -14,5 +15,5 @@ export const AppDataSource = new DataSource({
   database: env.DB_NAME,
   synchronize: true,
   logging: false,
-  entities: [User, Recipe, Rating, Comment],
+  entities: [User, Recipe, Rating, Comment, Favorite],
 });
