@@ -1,9 +1,9 @@
 import { AppDataSource } from "../config/datasource.js";
-import { Favorite } from "../entities/Favorite.entity.js";
+import { Favourite } from "../entities/Favorite.entity.js";
 import { AppError } from "../utils/app.error.js";
 
-export class FavoriteRepository {
-  private repo = AppDataSource.getRepository(Favorite);
+export class FavouriteRepository {
+  private repo = AppDataSource.getRepository(Favourite);
 
   find(userId: number, recipeId: number) {
     try {
@@ -20,17 +20,17 @@ export class FavoriteRepository {
 
   add(userId: number, recipeId: number) {
     try {
-      const favorite = this.repo.create({
+      const favourite = this.repo.create({
         user: { id: userId },
         recipe: { id: recipeId },
       });
-      return this.repo.save(favorite);
+      return this.repo.save(favourite);
     } catch {
-      throw new AppError("Failed to add to favorite", 500);
+      throw new AppError("Failed to add to favourite", 500);
     }
   }
 
-  getUserFavorites(userId: number) {
+  getUserFavourites(userId: number) {
     try {
       return this.repo.find({
         where: { user: { id: userId } },
@@ -38,7 +38,7 @@ export class FavoriteRepository {
         order: { createdAt: "DESC" },
       });
     } catch {
-      throw new AppError("Failed to fetch to favorite recipe", 500);
+      throw new AppError("Failed to fetch to favourite recipe", 500);
     }
   }
 
@@ -49,7 +49,7 @@ export class FavoriteRepository {
         recipe: { id: recipeId },
       });
     } catch {
-      throw new AppError("Failed to remove recipe from favorite", 500);
+      throw new AppError("Failed to remove recipe from favourite", 500);
     }
   }
 }

@@ -10,14 +10,14 @@ import { Recipe } from "./Recipe.entity.js";
 
 @Entity()
 @Unique(["user", "recipe"])
-export class Favorite {
+export class Favourite {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => User, (user) => user.favorites, { onDelete: "CASCADE" })
+  @ManyToOne(() => User, (user) => user.favourites, { onDelete: "CASCADE" })
   user!: User;
 
-  @ManyToOne(() => Recipe, (recipe) => recipe.favorites, {
+  @ManyToOne(() => Recipe, (recipe) => recipe.favourites, {
     onDelete: "CASCADE",
   })
   recipe!: Recipe;

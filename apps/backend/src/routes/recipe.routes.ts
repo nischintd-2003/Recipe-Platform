@@ -3,7 +3,7 @@ import { RecipeController } from "../controllers/recipe.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import ratingRouter from "./rating.route.js";
 import commentRouter from "./comment.route.js";
-import favoriteRouter from "./favorite.route.js";
+import favouriteRouter from "./favorite.route.js";
 
 const recipeRouter: Router = Router();
 
@@ -22,6 +22,6 @@ recipeRouter.delete(
 
 recipeRouter.use("/:recipeId/rate", ratingRouter);
 recipeRouter.use("/:recipeId/comment", commentRouter);
-recipeRouter.use("/:recipeId/favorite", favoriteRouter);
+recipeRouter.use("/:recipeId/favourite", favouriteRouter);
 
 export default recipeRouter;

@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
-import { FavoriteController } from "../controllers/favorite.controller.js";
+import { FavouriteController } from "../controllers/favorite.controller.js";
 
-const favoriteRouter: Router = Router({ mergeParams: true });
+const favouriteRouter: Router = Router({ mergeParams: true });
 
-favoriteRouter.post("/", authMiddleware, FavoriteController.addFavorite);
-favoriteRouter.get("/", authMiddleware, FavoriteController.getUserFavorites);
-favoriteRouter.delete("/", authMiddleware, FavoriteController.removeFavorite);
+favouriteRouter.post("/", authMiddleware, FavouriteController.addFavourite);
+favouriteRouter.get("/", authMiddleware, FavouriteController.getUserFavourites);
+favouriteRouter.delete("/", authMiddleware, FavouriteController.removeFavourite);
 
-export default favoriteRouter;
+export default favouriteRouter;
