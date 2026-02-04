@@ -17,4 +17,12 @@ export class FavoriteController {
     const favorites = await FavoriteService.getUserFavorites(userId);
     res.status(200).json(favorites);
   }
+
+  static async removeFavorite(req: AuthRequest, res: Response) {
+    const recipeId = Number(req.params.recipeId);
+    const userId = req.user!.userId;
+
+    await FavoriteService.removeFavorite(recipeId, userId);
+    res.status(204).send();
+  }
 }

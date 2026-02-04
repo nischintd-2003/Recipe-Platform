@@ -41,4 +41,15 @@ export class FavoriteRepository {
       throw new AppError("Failed to fetch to favorite recipe", 500);
     }
   }
+
+  remove(userId: number, recipeId: number) {
+    try {
+      return this.repo.delete({
+        user: { id: userId },
+        recipe: { id: recipeId },
+      });
+    } catch {
+      throw new AppError("Failed to remove recipe from favorite", 500);
+    }
+  }
 }

@@ -24,4 +24,9 @@ export class FavoriteService {
     const favoriteRepo = new FavoriteRepository();
     return favoriteRepo.getUserFavorites(userId);
   }
+
+  static async removeFavorite(recipeId: number, userId: number) {
+    const favoriteRepo = new FavoriteRepository();
+    await favoriteRepo.remove(userId, recipeId);
+  }
 }

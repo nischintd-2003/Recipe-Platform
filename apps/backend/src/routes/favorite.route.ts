@@ -6,5 +6,6 @@ const favoriteRouter: Router = Router({ mergeParams: true });
 
 favoriteRouter.post("/", authMiddleware, FavoriteController.addFavorite);
 favoriteRouter.get("/", authMiddleware, FavoriteController.getUserFavorites);
+favoriteRouter.delete("/", authMiddleware, FavoriteController.removeFavorite);
 
 export default favoriteRouter;
