@@ -19,4 +19,9 @@ export class FavoriteService {
 
     return favoriteRepo.add(userId, recipeId);
   }
+
+  static async getUserFavorites(userId: number) {
+    const favoriteRepo = new FavoriteRepository();
+    return favoriteRepo.getUserFavorites(userId);
+  }
 }

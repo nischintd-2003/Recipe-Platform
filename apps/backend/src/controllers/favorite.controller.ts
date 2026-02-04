@@ -10,4 +10,11 @@ export class FavoriteController {
     const favorite = await FavoriteService.addFavorite(recipeId, userId);
     res.status(201).json(favorite);
   }
+
+  static async getUserFavorites(req: AuthRequest, res: Response) {
+    const userId = req.user!.userId;
+
+    const favorites = await FavoriteService.getUserFavorites(userId);
+    res.status(200).json(favorites);
+  }
 }

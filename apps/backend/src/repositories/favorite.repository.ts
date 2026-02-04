@@ -29,4 +29,16 @@ export class FavoriteRepository {
       throw new AppError("Failed to add to favorite", 500);
     }
   }
+
+  getUserFavorites(userId: number) {
+    try {
+      return this.repo.find({
+        where: { user: { id: userId } },
+        relations: ["recipe"],
+        order: { createdAt: "DESC" },
+      });
+    } catch {
+      throw new AppError("Failed to fetch to favorite recipe", 500);
+    }
+  }
 }
