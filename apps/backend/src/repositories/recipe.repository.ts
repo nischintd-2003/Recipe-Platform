@@ -3,6 +3,7 @@ import { AppDataSource } from "../config/datasource.js";
 import { Recipe } from "../entities/Recipe.entity.js";
 import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
 import { AppError } from "../utils/app.error.js";
+import { RecipeSearchFilter } from "../interfaces/recipeSearchFilter.interface.js";
 
 export class RecipeRepository {
   private repository = AppDataSource.getRepository(Recipe);
@@ -70,5 +71,66 @@ export class RecipeRepository {
     } catch {
       throw new AppError("Failed to delete recipe", 500);
     }
+  }
+
+  async searchAndFilter(options: RecipeSearchFilter) {
+    const {
+      q,
+      minRating,
+      maxPrepTime,
+      sort = "latest",
+      page = 1,
+      limit = 10,
+    } = options;
+
+    const qb = this.repository
+      .createQueryBuilder("recipe")
+      .leftJoin("recipe.user", "user")
+      .leftJoin("recipe.ratings", "rating")
+      .select([
+        "recipe.id",
+        "recipe.title",
+        "recipe.ingredients",
+        "recipe.steps",
+        "recipe.imageUrl",
+        "recipe.prepTime",
+        "recipe.createdAt",
+        "user.id",
+        "user.email",
+      ])
+      .addSelect("AVG(rating.value)", "averageRating")
+      .addSelect("COUNT(rating.id)", "ratingCount")
+      .groupBy("recipe.id")
+      .addGroupBy("user.id");
+
+    if (q) {
+      qb.andWhere("(recipe.title LIKE :q OR recipe.ingredients LIKE :q)", {
+        q: `%${q}%`,
+      });
+    }
+
+    if (minRating !== undefined) {
+      qb.andHaving("AVG(rating.value) >= :minRating", { minRating });
+    }
+
+    if (maxPrepTime !== undefined) {
+      qb.andWhere("recipe.prepTime <= :maxPrepTime", { maxPrepTime });
+    }
+
+    if (sort === "rating") {
+      qb.orderBy("averageRating", "DESC");
+    } else {
+      qb.orderBy("recipe.createdAt", "DESC");
+    }
+
+    qb.skip((page - 1) * limit).take(limit);
+
+    const result = await qb.getRawAndEntities();
+
+    return result.entities.map((recipe, index) => ({
+      ...recipe,
+      averageRating: Number(result.raw[index].averageRating) || 0,
+      ratingCount: Number(result.raw[index].ratingCount),
+    }));
   }
 }

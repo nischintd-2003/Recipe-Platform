@@ -2,6 +2,7 @@ import { AppDataSource } from "../config/datasource.js";
 import { Recipe } from "../entities/Recipe.entity.js";
 import { User } from "../entities/User.entity.js";
 import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
+import { RecipeSearchFilter } from "../interfaces/recipeSearchFilter.interface.js";
 import { RatingRepository } from "../repositories/rating.repository.js";
 import { RecipeRepository } from "../repositories/recipe.repository.js";
 import { AppError } from "../utils/app.error.js";
@@ -19,23 +20,9 @@ export class RecipeService {
     return recipeRepository.createRecipe(data);
   }
 
-  static async getAllRecipes() {
+  static async getAllRecipes(filters: RecipeSearchFilter) {
     const recipeRepo = new RecipeRepository();
-    const ratingRepo = new RatingRepository();
-
-    const recipes = await recipeRepo.getAllRecipes();
-
-    return Promise.all(
-      recipes.map(async (recipe) => {
-        const rating = await ratingRepo.getAverageForRecipe(recipe.id);
-
-        return {
-          ...recipe,
-          averageRating: rating.averageRating,
-          ratingCount: rating.ratingCount,
-        };
-      }),
-    );
+    return recipeRepo.searchAndFilter(filters);
   }
 
   static async getRecipeById(id: number) {
