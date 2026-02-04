@@ -9,6 +9,7 @@ import {
 import { User } from "./User.entity.js";
 import { Rating } from "./Rating.entity.js";
 import { Comment } from "./Comment.entity.js";
+import { Favorite } from "./Favorite.entity.js";
 
 @Entity()
 export class Recipe {
@@ -38,6 +39,9 @@ export class Recipe {
 
   @OneToMany(() => Comment, (comment) => comment.recipe)
   comments!: Comment[];
+
+  @OneToMany(() => Favorite, (fav) => fav.recipe)
+  favorites!: Favorite[];
 
   @CreateDateColumn()
   createdAt!: Date;
