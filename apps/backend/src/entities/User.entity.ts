@@ -9,7 +9,7 @@ import {
 import { Recipe } from "./Recipe.entity.js";
 import { Rating } from "./Rating.entity.js";
 import { Comment } from "./Comment.entity.js";
-import { Favourite } from "./Favorite.entity.js";
+import { Favourite } from "./Favourite.entity.js";
 
 @Entity()
 export class User {

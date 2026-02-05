@@ -1,4 +1,4 @@
-import { FavouriteRepository } from "../repositories/favorite.repository.js";
+import { FavouriteRepository } from "../repositories/favourite.repository.js";
 import { RecipeRepository } from "../repositories/recipe.repository.js";
 import { AppError } from "../utils/app.error.js";
 

@@ -1,5 +1,5 @@
 import { AppDataSource } from "../config/datasource.js";
-import { Favourite } from "../entities/Favorite.entity.js";
+import { Favourite } from "../entities/Favourite.entity.js";
 import { AppError } from "../utils/app.error.js";
 
 export class FavouriteRepository {

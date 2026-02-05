@@ -4,7 +4,7 @@ import { User } from "../entities/User.entity.js";
 import { Recipe } from "../entities/Recipe.entity.js";
 import { Rating } from "../entities/Rating.entity.js";
 import { Comment } from "../entities/Comment.entity.js";
-import { Favourite } from "../entities/Favorite.entity.js";
+import { Favourite } from "../entities/Favourite.entity.js";
 
 export const AppDataSource = new DataSource({
   type: "mysql",

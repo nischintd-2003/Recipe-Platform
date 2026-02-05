@@ -3,7 +3,7 @@ import { RecipeController } from "../controllers/recipe.controller.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import ratingRouter from "./rating.route.js";
 import commentRouter from "./comment.route.js";
-import favouriteRouter from "./favorite.route.js";
+import favouriteRouter from "./favourite.route.js";
 
 const recipeRouter: Router = Router();
 

@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { AuthRequest } from "../interfaces/authRequest.interface.js";
-import { FavouriteService } from "../service/favorite.service.js";
+import { FavouriteService } from "../service/favourite.service.js";
 
 export class FavouriteController {
   static async addFavourite(req: AuthRequest, res: Response) {

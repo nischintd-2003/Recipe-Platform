@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authRouter from "./auth.routes.js";
 import recipeRouter from "./recipe.routes.js";
-import favouriteRouter from "./favorite.route.js";
+import favouriteRouter from "./favourite.route.js";
 
 const router: Router = Router();
 
