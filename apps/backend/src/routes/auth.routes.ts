@@ -17,7 +17,7 @@ const authRouter: Router = Router();
  *             type: object
  *             required: [name, email, password]
  *             properties:
- *               name:
+ *               username:
  *                 type: string
  *               email:
  *                 type: string

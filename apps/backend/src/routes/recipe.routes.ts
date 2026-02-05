@@ -121,7 +121,7 @@ recipeRouter.get("/:recipeId", RecipeController.getRecipeById);
  *                 type: string
  *               prepTime:
  *                 type: number
- *               image:
+ *               imageUrl:
  *                 type: string
  *                 description: Image URL
  *     responses:
@@ -161,7 +161,7 @@ recipeRouter.post("/", authMiddleware, RecipeController.createRecipe);
  *                 type: string
  *               prepTime:
  *                 type: number
- *               image:
+ *               imageUrl:
  *                 type: string
  *     responses:
  *       200:
