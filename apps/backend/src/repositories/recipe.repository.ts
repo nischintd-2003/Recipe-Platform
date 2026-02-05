@@ -32,7 +32,11 @@ export class RecipeRepository {
     }
   }
 
-  async getAllRecipesOfUser(userId: number): Promise<Recipe[]> {
+  async getAllRecipesOfUser(
+    userId: number,
+    page = 1,
+    limit = 10,
+  ): Promise<Recipe[]> {
     try {
       return await this.repository.find({
         where: {
@@ -44,6 +48,8 @@ export class RecipeRepository {
         order: {
           createdAt: "DESC",
         },
+        skip: (page - 1) * limit,
+        take: limit,
       });
     } catch {
       throw new AppError("Failed to fetch user recipes", 500);

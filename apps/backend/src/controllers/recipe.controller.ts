@@ -32,7 +32,13 @@ export class RecipeController {
 
   static async getAllRecipesOfUser(req: AuthRequest, res: Response) {
     const userId = Number(req.user?.userId);
-    const recipes = await RecipeService.getAllRecipesOfUser(userId);
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 10;
+    const recipes = await RecipeService.getAllRecipesOfUser(
+      userId,
+      page,
+      limit,
+    );
     res.status(200).json(recipes);
   }
 
