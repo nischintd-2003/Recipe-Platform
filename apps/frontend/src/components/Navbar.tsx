@@ -9,6 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { useAuth } from "../context/auth.context";
+import AuthModal from "./AuthModal";
 
 const navLinks = [
   { name: "Recipes", path: "/recipes" },
@@ -20,6 +21,7 @@ const Navbar = () => {
   const { state } = useAuth();
   const isLoggedIn = state.isAuthenticated;
 
+  const [authOpen, setAuthOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -93,7 +95,9 @@ const Navbar = () => {
                 <AccountCircleIcon />
               </IconButton>
             ) : (
-              <Button color="inherit">Login</Button>
+              <Button color="inherit" onClick={() => setAuthOpen(true)}>
+                Login
+              </Button>
             )}
           </Box>
         </Toolbar>
@@ -112,6 +116,7 @@ const Navbar = () => {
           </MenuItem>
         ))}
       </Menu>
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} />
     </Box>
   );
 };

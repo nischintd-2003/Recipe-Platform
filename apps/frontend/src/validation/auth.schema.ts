@@ -7,4 +7,8 @@ export const loginSchema = z.object({
     .min(6, { error: "Password must be at least 6 characters" }),
 });
 
+export const signupSchema = loginSchema.extend({
+  name: z.string().min(2, { error: "Name is required" }),
+});
+
 export type LoginFormData = z.infer<typeof loginSchema>;

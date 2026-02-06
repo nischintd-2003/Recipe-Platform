@@ -17,3 +17,5 @@ export type AuthContextType = {
   state: AuthState;
   dispatch: React.Dispatch<AuthAction>;
 };
+
+export type AuthMode = "login" | "signup";
