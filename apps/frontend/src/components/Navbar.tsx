@@ -8,6 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
+import { useAuth } from "../context/auth.context";
 
 const navLinks = [
   { name: "Recipes", path: "/recipes" },
@@ -15,11 +16,10 @@ const navLinks = [
   { name: "Favourite Recipes", path: "/favorites" },
 ];
 
-type NavbarProps = {
-  isLoggedIn: boolean;
-};
+const Navbar = () => {
+  const { state } = useAuth();
+  const isLoggedIn = state.isAuthenticated;
 
-const Navbar = ({ isLoggedIn }: NavbarProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
 
