@@ -22,6 +22,7 @@ api.interceptors.response.use(
 
     if (status === 401) {
       storage.clear();
+      window.location.href = "/";
     } else if (status === 404) {
       console.log("Recipe not found");
     } else {

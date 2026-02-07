@@ -13,10 +13,7 @@ import { storage } from "../utils/storage";
 import { loginSchema, signupSchema } from "../validation/auth.schema";
 import { useAuth } from "../context/auth.context";
 import type { AuthMode } from "../interfaces/auth.interface";
-import {
-  useLoginMutation,
-  useSignupMutation,
-} from "../api/auth/useAuthMutations";
+import { useLoginMutation, useSignupMutation } from "../hooks/useAuth";
 
 const modalStyle = {
   position: "absolute",

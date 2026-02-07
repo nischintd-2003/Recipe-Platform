@@ -1,8 +1,5 @@
-import type {
-  LoginPayload,
-  SignupPayload,
-} from "../../interfaces/auth.interface";
-import api from "../../config/axios";
+import type { LoginPayload, SignupPayload } from "../interfaces/auth.interface";
+import api from "../config/axios";
 
 export async function loginApi(payload: LoginPayload) {
   const res = await api.post("/auth/login", payload);
