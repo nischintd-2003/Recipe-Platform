@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
 
-const Home = () => <h1>Home Feed</h1>;
 const MyRecipes = () => <h1>My Recipes</h1>;
 const Favorites = () => <h1>Favorites</h1>;
 
