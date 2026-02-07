@@ -8,9 +8,15 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import { isAxiosError } from "axios";
+import { storage } from "../utils/storage";
 import { loginSchema, signupSchema } from "../validation/auth.schema";
 import { useAuth } from "../context/auth.context";
 import type { AuthMode } from "../interfaces/auth.interface";
+import {
+  useLoginMutation,
+  useSignupMutation,
+} from "../api/auth/useAuthMutations";
 
 const modalStyle = {
   position: "absolute",
@@ -43,6 +49,9 @@ const AuthModal = ({ open, onClose }: Props) => {
   const { dispatch } = useAuth();
   const [mode, setMode] = useState<AuthMode>("login");
 
+  const loginMutation = useLoginMutation();
+  const signupMutation = useSignupMutation();
+
   const promptText =
     mode === "login" ? "Don't have an account? " : "Already have an account? ";
 
@@ -59,7 +68,7 @@ const AuthModal = ({ open, onClose }: Props) => {
       setForm({ ...form, [field]: e.target.value });
     };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const schema = mode === "login" ? loginSchema : signupSchema;
     const result = schema.safeParse(form);
 
@@ -72,17 +81,46 @@ const AuthModal = ({ open, onClose }: Props) => {
       return;
     }
 
-    // Fake success
-    dispatch({
-      type: "LOGIN",
-      payload: {
-        user: {
-          id: 1,
+    try {
+      let authData;
+
+      if (mode === "login") {
+        authData = await loginMutation.mutateAsync({
           email: form.email,
+          password: form.password,
+        });
+      } else {
+        await signupMutation.mutateAsync({
+          username: form.username,
+          email: form.email,
+          password: form.password,
+        });
+
+        authData = await loginMutation.mutateAsync({
+          email: form.email,
+          password: form.password,
+        });
+      }
+
+      storage.setToken(authData.token);
+      storage.setUser(authData.user);
+
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user: authData.user,
+          token: authData.token,
         },
-        token: "jwt-token",
-      },
-    });
+      });
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message =
+          error.response?.data?.message || "Authentication failed";
+        setErrors({ server: message });
+      } else {
+        setErrors({ server: "An unexpected error occurred" });
+      }
+    }
 
     onClose();
   };
@@ -109,11 +147,11 @@ const AuthModal = ({ open, onClose }: Props) => {
         <Box sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 2 }}>
           {mode === "signup" && (
             <TextField
-              label="Name"
+              label="Username"
               value={form.username}
-              onChange={handleChange("name")}
-              error={Boolean(errors.name)}
-              helperText={errors.name}
+              onChange={handleChange("username")}
+              error={Boolean(errors.username)}
+              helperText={errors.username}
               fullWidth
             />
           )}
@@ -138,8 +176,17 @@ const AuthModal = ({ open, onClose }: Props) => {
           />
 
           {/* Action Button */}
-          <Button variant="contained" size="large" onClick={handleSubmit}>
-            {mode === "login" ? "Login" : "Sign Up"}
+          <Button
+            variant="contained"
+            size="large"
+            onClick={handleSubmit}
+            disabled={loginMutation.isPending || signupMutation.isPending}
+          >
+            {loginMutation.isPending || signupMutation.isPending
+              ? "Processing..."
+              : mode === "login"
+                ? "Login"
+                : "Sign Up"}
           </Button>
 
           <Typography

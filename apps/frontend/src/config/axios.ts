@@ -1,12 +1,13 @@
 import axios from "axios";
+import { storage } from "../utils/storage";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
-axios.interceptors.request.use((config) => {
-  const authToken = localStorage.getItem("authToken");
+api.interceptors.request.use((config) => {
+  const authToken = storage.getToken();
   if (authToken && config.headers) {
     config.headers.Authorization = `Bearer ${authToken}`;
   }
@@ -14,13 +15,13 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-axios.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response ? error.response.status : null;
 
     if (status === 401) {
-      console.log("Unauthorized access");
+      storage.clear();
     } else if (status === 404) {
       console.log("Recipe not found");
     } else {

@@ -8,7 +8,7 @@ export const loginSchema = z.object({
 });
 
 export const signupSchema = loginSchema.extend({
-  name: z.string().min(2, { error: "Name is required" }),
+  username: z.string().min(2, { error: "Name is required" }),
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;

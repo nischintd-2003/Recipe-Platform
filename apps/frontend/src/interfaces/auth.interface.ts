@@ -11,7 +11,8 @@ export type AuthState = {
 
 export type AuthAction =
   | { type: "LOGIN"; payload: { user: User; token: string } }
-  | { type: "LOGOUT" };
+  | { type: "LOGOUT" }
+  | { type: "INITIALIZE"; payload: { user: User; token: string } };
 
 export type AuthContextType = {
   state: AuthState;
@@ -19,3 +20,14 @@ export type AuthContextType = {
 };
 
 export type AuthMode = "login" | "signup";
+
+export type LoginPayload = {
+  email: string;
+  password: string;
+};
+
+export type SignupPayload = {
+  username: string;
+  email: string;
+  password: string;
+};

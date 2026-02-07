@@ -1,11 +1,30 @@
-import { createContext, useContext, useReducer, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  type ReactNode,
+} from "react";
 import type { AuthContextType } from "../interfaces/auth.interface";
 import { authReducer, initialAuthState } from "./auth.reducer";
+import { storage } from "../utils/storage";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
+
+  useEffect(() => {
+    const token = storage.getToken();
+    const user = storage.getUser();
+
+    if (token && user) {
+      dispatch({
+        type: "LOGIN",
+        payload: { user, token },
+      });
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
