@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchRecipe } from "../api/recipe.api";
+import { fetchRecipe, fetchRecipeById } from "../api/recipe.api";
 
 export const useRecipes = () => {
   return useQuery({
@@ -8,3 +8,12 @@ export const useRecipes = () => {
     staleTime: 1000 * 60 * 5,
   });
 };
+
+export function useRecipe(id?: string) {
+  return useQuery({
+    queryKey: ["recipe", id],
+    queryFn: () => fetchRecipeById(id as string),
+    enabled: !!id,
+    staleTime: 1000 * 60 * 5,
+  });
+}
