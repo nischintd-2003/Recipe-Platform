@@ -13,3 +13,11 @@ export interface Recipe {
     email: string;
   };
 }
+
+export interface CreateRecipePayload {
+  title: string;
+  ingredients: string;
+  steps: string;
+  prepTime: number;
+  image?: string;
+}
