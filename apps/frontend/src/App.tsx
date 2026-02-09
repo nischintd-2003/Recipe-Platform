@@ -3,6 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import RecipeDetails from "./pages/RecipeDetails";
+import GlobalFab from "./components/GlobalFab";
 
 const MyRecipes = () => <h1>My Recipes</h1>;
 const Favorites = () => <h1>Favorites</h1>;
@@ -21,6 +22,7 @@ function App() {
           <Route path="/my-recipes" element={<MyRecipes />} />
           <Route path="/favorites" element={<Favorites />} />
         </Routes>
+        <GlobalFab />
       </div>
     </BrowserRouter>
   );
