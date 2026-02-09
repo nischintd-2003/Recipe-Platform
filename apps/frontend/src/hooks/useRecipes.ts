@@ -1,10 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchRecipe, fetchRecipeById } from "../api/recipe.api";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { fetchRecipes, fetchRecipeById } from "../api/recipe.api";
+import type { RecipeFilters } from "../interfaces/recipe.interface";
 
-export const useRecipes = () => {
+export const useRecipes = (filters: RecipeFilters) => {
   return useQuery({
-    queryKey: ["recipes"],
-    queryFn: fetchRecipe,
+    queryKey: ["recipes", filters],
+    queryFn: () => fetchRecipes(filters),
+    placeholderData: keepPreviousData,
     staleTime: 1000 * 60 * 5,
   });
 };

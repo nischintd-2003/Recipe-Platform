@@ -2,10 +2,13 @@ import api from "../config/axios";
 import type {
   CreateRecipePayload,
   Recipe,
+  RecipeFilters,
 } from "../interfaces/recipe.interface";
 
-export const fetchRecipe = async (): Promise<Recipe[]> => {
-  const response = await api.get("/recipe");
+export const fetchRecipes = async (
+  params?: RecipeFilters,
+): Promise<Recipe[]> => {
+  const response = await api.get("/recipe", { params });
   return response.data;
 };
 
