@@ -11,6 +11,10 @@ import {
   Button,
   Skeleton,
   Alert,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -21,6 +25,11 @@ const RecipeDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: recipe, isLoading, isError, error } = useRecipe(id);
+
+  const stepsList = recipe?.steps
+    .split("\n")
+    .map((step) => step.trim())
+    .filter((step) => step.length > 0);
 
   if (isLoading) {
     return (
@@ -159,16 +168,37 @@ const RecipeDetails = () => {
           <Typography variant="h5" fontWeight={700} gutterBottom>
             Instructions
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              whiteSpace: "pre-line",
-              lineHeight: 1.8,
-              color: "text.secondary",
-            }}
-          >
-            {recipe.steps}
-          </Typography>
+          <List sx={{ p: 0 }}>
+            {stepsList?.map((step, index) => (
+              <ListItem
+                key={index}
+                alignItems="flex-start"
+                sx={{ px: 0, py: 1 }}
+              >
+                <ListItemAvatar sx={{ minWidth: 40, mt: 0.5 }}>
+                  <Avatar
+                    sx={{
+                      width: 28,
+                      height: 28,
+                      fontSize: 15,
+                      bgcolor: "primary.main",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={step}
+                  primaryTypographyProps={{
+                    variant: "body1",
+                    color: "text.primary",
+                    lineHeight: 1.6,
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
         </Box>
       </Box>
     </Container>
