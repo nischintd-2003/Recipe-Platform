@@ -21,3 +21,11 @@ export interface CreateRecipePayload {
   prepTime: number;
   image?: string;
 }
+
+export const InitialCreateRecipeForm: CreateRecipePayload = {
+  title: "",
+  ingredients: "",
+  steps: "",
+  prepTime: 0,
+  image: "",
+};
