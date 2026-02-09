@@ -32,9 +32,18 @@ export const InitialCreateRecipeForm: CreateRecipePayload = {
 
 export interface RecipeFilters {
   q?: string;
-  minRating?: string;
+  minRating?: number;
   maxPrepTime?: number;
   sort?: "latest" | "rating";
   page?: number;
   limit?: number;
 }
+
+export const InitialRecipeFilters: RecipeFilters = {
+  q: "",
+  minRating: 0,
+  maxPrepTime: 120,
+  sort: "latest",
+  page: 1,
+  limit: 0,
+};
