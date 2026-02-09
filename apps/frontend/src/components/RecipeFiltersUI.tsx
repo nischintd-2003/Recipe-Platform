@@ -19,8 +19,7 @@ interface Props {
 
 const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: Props) => {
   return (
-    <Box sx={{ p: 3, mb: 4}}>
-      
+    <Box sx={{ p: 3, mb: 4 }}>
       <Box display="flex" alignItems="center" gap={1} mb={3}>
         <FilterListIcon color="primary" />
         <Typography variant="h6" fontWeight={700}>

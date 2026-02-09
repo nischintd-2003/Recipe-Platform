@@ -122,17 +122,20 @@ const Home = () => {
         </Box>
       </Box>
 
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
+        <Typography variant="h4" fontWeight={700} mb={4} color="text.primary">
+          Cook Fresh Recipes
+        </Typography>
 
-      <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"}>
-      <Typography variant="h4" fontWeight={700} mb={4} color="text.primary">
-        Cook Fresh Recipes
-      </Typography>
-
-      <RecipeFiltersUI
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        onClear={() => setFilters(InitialRecipeFilters)}
-      />
+        <RecipeFiltersUI
+          filters={filters}
+          onFilterChange={handleFilterChange}
+          onClear={() => setFilters(InitialRecipeFilters)}
+        />
       </Box>
 
       {recipes?.length === 0 ? (

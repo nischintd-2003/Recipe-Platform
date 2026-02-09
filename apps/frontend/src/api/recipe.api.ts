@@ -23,3 +23,7 @@ export const createRecipe = async (
   const response = await api.post("/recipe", payload);
   return response.data;
 };
+
+export const rateRecipe = async (id: number, value: number) => {
+  await api.post(`/recipe/${id}/rate`, { value });
+};
