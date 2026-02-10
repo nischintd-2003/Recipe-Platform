@@ -14,7 +14,7 @@ import AuthModal from "./AuthModal";
 const navLinks = [
   { name: "Recipes", path: "/recipes" },
   { name: "My Recipes", path: "/my-recipes" },
-  { name: "Favourite Recipes", path: "/favorites" },
+  { name: "Favorite Recipes", path: "/favorites" },
 ];
 
 const Navbar = () => {

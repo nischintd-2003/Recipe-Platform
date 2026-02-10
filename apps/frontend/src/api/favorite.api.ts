@@ -1,8 +1,8 @@
 import api from "../config/axios";
-import type { FavouriteItem } from "../interfaces/recipe.interface";
+import type { FavoriteItem } from "../interfaces/recipe.interface";
 
-export const fetchFavourites = async () => {
-  const response = await api.get<FavouriteItem[]>("/favourites");
+export const fetchFavorites = async () => {
+  const response = await api.get<FavoriteItem[]>("/favourites");
   return response.data.map((fav) => fav.recipe);
 };
 

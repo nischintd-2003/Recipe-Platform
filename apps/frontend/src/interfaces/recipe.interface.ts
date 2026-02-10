@@ -13,7 +13,7 @@ export interface Recipe {
     email: string;
   };
   userRating?: number | null;
-  isFavourite?: boolean;
+  isFavorite?: boolean;
 }
 
 export interface CreateRecipePayload {
@@ -50,7 +50,7 @@ export const InitialRecipeFilters: RecipeFilters = {
   limit: 0,
 };
 
-export interface FavouriteItem {
+export interface FavoriteItem {
   id: number;
   recipe: Recipe;
   createdAt: string;

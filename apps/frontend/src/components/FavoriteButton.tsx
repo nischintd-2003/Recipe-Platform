@@ -16,7 +16,7 @@ const FavoriteButton = ({ recipeId, initialState = false }: Props) => {
 
   const [isFavorited, setIsFavorited] = useState(initialState);
 
-  const toggleFavouritemutation = useToggleFavoriteMutation();
+  const toggleFavoritemutation = useToggleFavoriteMutation();
 
   useEffect(() => {
     setIsFavorited(initialState);
@@ -33,7 +33,7 @@ const FavoriteButton = ({ recipeId, initialState = false }: Props) => {
     const newState = !isFavorited;
     setIsFavorited(newState);
 
-    toggleFavouritemutation.mutate(
+    toggleFavoritemutation.mutate(
       { id: recipeId, isFavorited: !newState },
       {
         onError: () => {
@@ -48,7 +48,7 @@ const FavoriteButton = ({ recipeId, initialState = false }: Props) => {
       <IconButton
         onClick={handleToggle}
         color="error"
-        disabled={toggleFavouritemutation.isPending}
+        disabled={toggleFavoritemutation.isPending}
         sx={{
           transform: isFavorited ? "scale(1.1)" : "scale(1)",
           transition: "transform 0.2s",
