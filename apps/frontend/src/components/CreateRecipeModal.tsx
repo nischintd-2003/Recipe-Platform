@@ -9,6 +9,7 @@ import {
   Box,
   Alert,
   IconButton,
+  Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useCreateRecipeMutation } from "../hooks/useRecipeMutations";
@@ -18,6 +19,7 @@ import {
 } from "../validation/recipe.schema";
 import { isAxiosError } from "axios";
 import { InitialCreateRecipeForm } from "../interfaces/recipe.interface";
+import ImageUpload from "./ImageUpload";
 
 interface Props {
   open: boolean;
@@ -111,15 +113,22 @@ const CreateRecipeModal = ({ open, onClose }: Props) => {
               helperText={errors.prepTime}
               sx={{ flex: 1 }}
             />
-            <TextField
-              label="Image URL"
-              name="image"
-              value={form.image}
-              onChange={handleChange}
-              error={!!errors.image}
-              helperText={errors.image}
-              sx={{ flex: 2 }}
-            />
+            <Box sx={{ flex: 2 }}>
+              <ImageUpload
+                value={form.image}
+                onChange={(url) => setForm((prev) => ({ ...prev, image: url }))}
+                error={!!errors.image}
+              />
+              {errors.image && (
+                <Typography
+                  variant="caption"
+                  color="error"
+                  sx={{ ml: 1.5, mt: 0.5 }}
+                >
+                  {errors.image}
+                </Typography>
+              )}
+            </Box>
           </Box>
 
           <TextField

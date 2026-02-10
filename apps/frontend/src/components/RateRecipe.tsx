@@ -31,7 +31,6 @@ const RateRecipe = ({ recipeId, existingRating }: Props) => {
       { id: recipeId, value: newValue },
       {
         onSuccess: () => {
-          toast.success("Rating submitted successfully!");
           setValue(newValue);
         },
         onError: (error) => {
