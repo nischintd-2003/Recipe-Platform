@@ -26,7 +26,7 @@ const FavoriteButton = ({ recipeId, initialState = false }: Props) => {
     e.stopPropagation();
 
     if (!state.isAuthenticated) {
-      toast.error("Please log in to rate recipes");
+      toast.error("Please log in to add recipes to favorites");
       return;
     }
 

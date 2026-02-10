@@ -160,7 +160,7 @@ const RecipeDetails = () => {
           </Typography>
           <FavoriteButton
             recipeId={Number(id)}
-            initialState={recipe.isFavorite}
+            initialState={recipe.isFavourite}
           />
         </Box>
 
