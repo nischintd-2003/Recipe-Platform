@@ -15,8 +15,11 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  IconButton,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonIcon from "@mui/icons-material/Person";
 import { useRecipe } from "../hooks/useRecipes";
@@ -69,13 +72,24 @@ const RecipeDetails = () => {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       {/* Navigation & Header */}
-      <Button
-        startIcon={<ArrowBackIcon />}
-        onClick={() => navigate(-1)}
-        sx={{ mb: 2, color: "text.secondary" }}
-      >
-        Back to Recipes
-      </Button>
+      <Box display={"flex"} justifyContent={"space-between"}>
+        <Button
+          startIcon={<ArrowBackIcon />}
+          onClick={() => navigate(-1)}
+          sx={{ mb: 2, color: "text.secondary" }}
+        >
+          Back to Recipes
+        </Button>
+
+        <Box>
+          <IconButton aria-label="edit" color="primary">
+            <EditIcon />
+          </IconButton>
+          <IconButton aria-label="delete" color="error">
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      </Box>
 
       {/* Hero Image */}
       <Box
