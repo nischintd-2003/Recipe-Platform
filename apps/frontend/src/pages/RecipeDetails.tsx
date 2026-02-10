@@ -22,6 +22,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useRecipe } from "../hooks/useRecipes";
 import RateRecipe from "../components/RateRecipe";
 import FavoriteButton from "../components/FavoriteButton";
+import CommentSection from "../components/CommentSection";
 
 const RecipeDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -214,6 +215,7 @@ const RecipeDetails = () => {
           </List>
         </Box>
       </Box>
+      <CommentSection recipeId={Number(id)} />
     </Container>
   );
 };
