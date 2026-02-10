@@ -15,7 +15,6 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  IconButton,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -26,11 +25,40 @@ import { useRecipe } from "../hooks/useRecipes";
 import RateRecipe from "../components/RateRecipe";
 import FavoriteButton from "../components/FavoriteButton";
 import CommentSection from "../components/CommentSection";
+import { useAuth } from "../context/auth.context";
+import { useDeleteRecipeMutation } from "../hooks/useRecipeMutations";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import CreateRecipeModal from "../components/CreateRecipeModal";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const RecipeDetails = () => {
+  const { state } = useAuth();
+  const deleteMutation = useDeleteRecipeMutation();
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: recipe, isLoading, isError, error } = useRecipe(id);
+
+  const isOwner = state.user?.id === recipe?.user.id;
+
+  const handleDeleteConfirm = () => {
+    if (recipe) {
+      deleteMutation.mutate(recipe.id, {
+        onSuccess: () => {
+          toast.success("Recipe deleted successfully");
+          setDeleteModalOpen(false);
+        },
+        onError: () => {
+          toast.error("Failed to delete recipe");
+          setDeleteModalOpen(false);
+        },
+      });
+    }
+  };
 
   const stepsList = recipe?.steps
     .split("\n")
@@ -72,7 +100,12 @@ const RecipeDetails = () => {
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
       {/* Navigation & Header */}
-      <Box display={"flex"} justifyContent={"space-between"}>
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        mb={2}
+      >
         <Button
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate(-1)}
@@ -81,14 +114,27 @@ const RecipeDetails = () => {
           Back to Recipes
         </Button>
 
-        <Box>
-          <IconButton aria-label="edit" color="primary">
-            <EditIcon />
-          </IconButton>
-          <IconButton aria-label="delete" color="error">
-            <DeleteIcon />
-          </IconButton>
-        </Box>
+        {isOwner && (
+          <Box display="flex" gap={1}>
+            <Button
+              variant="outlined"
+              startIcon={<EditIcon />}
+              onClick={() => setEditModalOpen(true)}
+              size="small"
+            >
+              Edit
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={() => setDeleteModalOpen(true)}
+              size="small"
+            >
+              Delete
+            </Button>
+          </Box>
+        )}
       </Box>
 
       {/* Hero Image */}
@@ -229,7 +275,27 @@ const RecipeDetails = () => {
           </List>
         </Box>
       </Box>
+      {/* COMMENT SECTION */}
       <CommentSection recipeId={Number(id)} />
+      {/* MODALS */}
+      {isOwner && (
+        <>
+          <CreateRecipeModal
+            open={editModalOpen}
+            onClose={() => setEditModalOpen(false)}
+            recipeToEdit={recipe}
+          />
+
+          <ConfirmationModal
+            open={deleteModalOpen}
+            onClose={() => setDeleteModalOpen(false)}
+            onConfirm={handleDeleteConfirm}
+            title="Delete Recipe?"
+            description="Are you sure you want to delete this recipe? This action cannot be undone."
+            isLoading={deleteMutation.isPending}
+          />
+        </>
+      )}
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -12,25 +12,50 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useCreateRecipeMutation } from "../hooks/useRecipeMutations";
+import {
+  useCreateRecipeMutation,
+  useUpdateRecipeMutation,
+} from "../hooks/useRecipeMutations";
 import {
   createRecipeSchema,
   type CreateRecipeForm,
 } from "../validation/recipe.schema";
 import { isAxiosError } from "axios";
-import { InitialCreateRecipeForm } from "../interfaces/recipe.interface";
+import {
+  InitialCreateRecipeForm,
+  type Recipe,
+} from "../interfaces/recipe.interface";
 import ImageUpload from "./ImageUpload";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  recipeToEdit?: Recipe;
 }
 
-const CreateRecipeModal = ({ open, onClose }: Props) => {
-  const createRecipe = useCreateRecipeMutation();
+const CreateRecipeModal = ({ open, onClose, recipeToEdit }: Props) => {
+  const createRecipeMutation = useCreateRecipeMutation();
+  const updateRecipeMutation = useUpdateRecipeMutation();
+
+  const isEditMode = !!recipeToEdit;
+
   const [form, setForm] = useState<CreateRecipeForm>(InitialCreateRecipeForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (open && recipeToEdit) {
+      setForm({
+        title: recipeToEdit.title,
+        ingredients: recipeToEdit.ingredients,
+        steps: recipeToEdit.steps,
+        prepTime: recipeToEdit.prepTime || 0,
+        image: recipeToEdit.imageUrl || "",
+      });
+    } else if (open && !recipeToEdit) {
+      setForm(InitialCreateRecipeForm);
+    }
+  }, [open, recipeToEdit]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -52,22 +77,33 @@ const CreateRecipeModal = ({ open, onClose }: Props) => {
       return;
     }
 
-    createRecipe.mutate(result.data, {
-      onSuccess: () => {
-        onClose();
-        setForm(InitialCreateRecipeForm);
-      },
-      onError: (error) => {
-        if (isAxiosError(error)) {
-          setServerError(
-            error.response?.data?.message || "Failed to create recipe",
-          );
-        } else {
-          setServerError("Something went wrong");
-        }
-      },
-    });
+    const handleSuccess = () => {
+      onClose();
+      if (!isEditMode) setForm(InitialCreateRecipeForm);
+    };
+
+    const handleError = (error: unknown) => {
+      if (isAxiosError(error)) {
+        setServerError(error.response?.data?.message || "Operation failed");
+      } else {
+        setServerError("Something went wrong");
+      }
+    };
+    if (isEditMode && recipeToEdit) {
+      updateRecipeMutation.mutate(
+        { id: recipeToEdit.id, data: result.data },
+        { onSuccess: handleSuccess, onError: handleError },
+      );
+    } else {
+      createRecipeMutation.mutate(result.data, {
+        onSuccess: handleSuccess,
+        onError: handleError,
+      });
+    }
   };
+
+  const isLoading =
+    createRecipeMutation.isPending || updateRecipeMutation.isPending;
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
@@ -78,7 +114,7 @@ const CreateRecipeModal = ({ open, onClose }: Props) => {
           alignItems: "center",
         }}
       >
-        Share Your Recipe
+        {isEditMode ? "Edit Recipe" : "Share Your Recipe"}
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
@@ -163,12 +199,8 @@ const CreateRecipeModal = ({ open, onClose }: Props) => {
         <Button onClick={onClose} color="inherit">
           Cancel
         </Button>
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          disabled={createRecipe.isPending}
-        >
-          {createRecipe.isPending ? "Publishing..." : "Publish Recipe"}
+        <Button onClick={handleSubmit} variant="contained" disabled={isLoading}>
+          {isLoading ? "Publishing..." : "Publish Recipe"}
         </Button>
       </DialogActions>
     </Dialog>
