@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color={"transparent"}>
         <Toolbar>
           {/* Left Section: Logo and Mobile Menu Icon */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -55,6 +55,7 @@ const Navbar = () => {
             <Typography
               variant="h6"
               component="div"
+              color="primary"
               sx={{ fontWeight: 700, letterSpacing: 1 }}
             >
               Fudo

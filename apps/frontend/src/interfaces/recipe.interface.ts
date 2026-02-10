@@ -49,3 +49,9 @@ export const InitialRecipeFilters: RecipeFilters = {
   page: 1,
   limit: 0,
 };
+
+export interface FavouriteItem {
+  id: number;
+  recipe: Recipe;
+  createdAt: string;
+}
