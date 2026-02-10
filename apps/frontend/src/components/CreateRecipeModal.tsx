@@ -10,8 +10,11 @@ import {
   Alert,
   IconButton,
   Typography,
+  Grid,
+  Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   useCreateRecipeMutation,
   useUpdateRecipeMutation,
@@ -89,6 +92,7 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: Props) => {
         setServerError("Something went wrong");
       }
     };
+
     if (isEditMode && recipeToEdit) {
       updateRecipeMutation.mutate(
         { id: recipeToEdit.id, data: result.data },
@@ -106,101 +110,168 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: Props) => {
     createRecipeMutation.isPending || updateRecipeMutation.isPending;
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="md"
+      PaperProps={{
+        sx: { borderRadius: 3 },
+      }}
+    >
       <DialogTitle
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          pb: 1,
         }}
       >
-        {isEditMode ? "Edit Recipe" : "Share Your Recipe"}
+        <Typography variant="h5" fontWeight={800}>
+          {isEditMode ? "Edit Recipe" : "Create New Recipe"}
+        </Typography>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
 
-      <DialogContent dividers>
+      <Box px={3} pb={2}>
+        <Typography variant="body2" color="text.secondary">
+          Fill in the details below to share your masterpiece with the food
+          community.
+        </Typography>
+      </Box>
+
+      <Divider />
+
+      <DialogContent sx={{ py: 3 }}>
         {serverError && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert severity="error" sx={{ mb: 3 }}>
             {serverError}
           </Alert>
         )}
 
-        <Box display="flex" flexDirection="column" gap={2} mt={1}>
-          <TextField
-            label="Recipe Title"
-            name="title"
-            value={form.title}
-            onChange={handleChange}
-            error={!!errors.title}
-            helperText={errors.title}
-            fullWidth
-          />
-
-          <Box display="flex" gap={2}>
+        <Grid container spacing={3}>
+          {/* Title & Prep Time */}
+          <Grid size={{ xs: 12, md: 8 }}>
+            <Typography variant="subtitle2" fontWeight={700} mb={1}>
+              RECIPE TITLE
+            </Typography>
             <TextField
-              label="Prep Time (mins)"
+              placeholder="e.g. Pasta"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              error={!!errors.title}
+              helperText={errors.title}
+              fullWidth
+              variant="outlined"
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 4 }}>
+            <Typography variant="subtitle2" fontWeight={700} mb={1}>
+              PREP TIME (MINS)
+            </Typography>
+            <TextField
+              placeholder="e.g. 45"
               name="prepTime"
               type="number"
-              value={form.prepTime}
+              value={form.prepTime || ""}
               onChange={handleChange}
               error={!!errors.prepTime}
               helperText={errors.prepTime}
-              sx={{ flex: 1 }}
+              fullWidth
+              variant="outlined"
             />
-            <Box sx={{ flex: 2 }}>
-              <ImageUpload
-                value={form.image}
-                onChange={(url) => setForm((prev) => ({ ...prev, image: url }))}
-                error={!!errors.image}
-              />
-              {errors.image && (
-                <Typography
-                  variant="caption"
-                  color="error"
-                  sx={{ ml: 1.5, mt: 0.5 }}
-                >
-                  {errors.image}
-                </Typography>
-              )}
-            </Box>
-          </Box>
+          </Grid>
 
-          <TextField
-            label="Ingredients"
-            name="ingredients"
-            multiline
-            rows={4}
-            value={form.ingredients}
-            onChange={handleChange}
-            error={!!errors.ingredients}
-            helperText={errors.ingredients}
-            placeholder="List ingredients here..."
-            fullWidth
-          />
+          {/* Image Upload */}
+          <Grid size={{ xs: 12 }}>
+            <Typography variant="subtitle2" fontWeight={700} mb={1}>
+              COVER IMAGE
+            </Typography>
+            <ImageUpload
+              value={form.image}
+              onChange={(url) => setForm((prev) => ({ ...prev, image: url }))}
+              error={!!errors.image}
+            />
+            {errors.image && (
+              <Typography variant="caption" color="error" sx={{ mt: 0.5 }}>
+                {errors.image}
+              </Typography>
+            )}
+          </Grid>
 
-          <TextField
-            label="Steps"
-            name="steps"
-            multiline
-            rows={4}
-            value={form.steps}
-            onChange={handleChange}
-            error={!!errors.steps}
-            helperText={errors.steps}
-            placeholder="Describe the cooking process..."
-            fullWidth
-          />
-        </Box>
+          {/* Ingredients */}
+          <Grid size={{ xs: 12 }}>
+            <Typography variant="subtitle2" fontWeight={700} mb={1}>
+              INGREDIENTS
+            </Typography>
+            <TextField
+              name="ingredients"
+              multiline
+              rows={5}
+              value={form.ingredients}
+              onChange={handleChange}
+              error={!!errors.ingredients}
+              helperText={
+                errors.ingredients ||
+                "List one ingredient per line (e.g. 2 cups Flour)"
+              }
+              placeholder="2 eggs&#10;1 cup flour&#10;1 tsp vanilla extract"
+              fullWidth
+              sx={{ bgcolor: "background.paper" }}
+            />
+          </Grid>
+
+          {/* Steps */}
+          <Grid size={{ xs: 12 }}>
+            <Typography variant="subtitle2" fontWeight={700} mb={1}>
+              COOKING INSTRUCTIONS
+            </Typography>
+            <TextField
+              name="steps"
+              multiline
+              rows={6}
+              value={form.steps}
+              onChange={handleChange}
+              error={!!errors.steps}
+              helperText={
+                errors.steps || "Describe the steps to prepare your dish..."
+              }
+              placeholder="Preheat the oven...&#10;Mix dry ingredients..."
+              fullWidth
+              sx={{ bgcolor: "background.paper" }}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
 
-      <DialogActions sx={{ p: 3 }}>
-        <Button onClick={onClose} color="inherit">
+      <Divider />
+
+      <DialogActions sx={{ p: 3, justifyContent: "flex-end", gap: 1 }}>
+        <Button
+          onClick={onClose}
+          color="inherit"
+          variant="outlined"
+          sx={{ fontWeight: 600, borderColor: "divider" }}
+        >
           Cancel
         </Button>
-        <Button onClick={handleSubmit} variant="contained" disabled={isLoading}>
-          {isLoading ? "Publishing..." : "Publish Recipe"}
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          disabled={isLoading}
+          disableElevation
+          startIcon={!isLoading && <CloudUploadIcon />}
+          sx={{ fontWeight: 600, px: 3, py: 1 }}
+        >
+          {isLoading
+            ? "Submitting..."
+            : isEditMode
+              ? "Save Changes"
+              : "Submit Recipe"}
         </Button>
       </DialogActions>
     </Dialog>
