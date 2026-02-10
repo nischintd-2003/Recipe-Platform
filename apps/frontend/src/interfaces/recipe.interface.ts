@@ -12,6 +12,7 @@ export interface Recipe {
     id: number;
     email: string;
   };
+  userRating?: number | null;
 }
 
 export interface CreateRecipePayload {

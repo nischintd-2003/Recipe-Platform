@@ -4,6 +4,7 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
 import ratingRouter from "./rating.route.js";
 import commentRouter from "./comment.route.js";
 import favouriteRouter from "./favourite.route.js";
+import { optionalAuthMiddleware } from "../middleware/optionalAuth.middleware.js";
 
 const recipeRouter: Router = Router();
 
@@ -95,7 +96,11 @@ recipeRouter.get("/user", authMiddleware, RecipeController.getAllRecipesOfUser);
  *       404:
  *         description: Recipe not found
  */
-recipeRouter.get("/:recipeId", RecipeController.getRecipeById);
+recipeRouter.get(
+  "/:recipeId",
+  optionalAuthMiddleware,
+  RecipeController.getRecipeById,
+);
 
 /**
  * @swagger

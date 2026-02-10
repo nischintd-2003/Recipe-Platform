@@ -30,7 +30,7 @@ export class RecipeService {
     return recipeRepo.getAllRecipesOfUser(userId, page, limit);
   }
 
-  static async getRecipeById(id: number) {
+  static async getRecipeById(id: number, userId?: number) {
     const recipeRepo = new RecipeRepository();
     const ratingRepo = new RatingRepository();
 
@@ -42,10 +42,19 @@ export class RecipeService {
 
     const rating = await ratingRepo.getAverageForRecipe(recipe.id);
 
+    let userRating = null;
+    if (userId) {
+      const existingRating = await ratingRepo.findByUserAndRecipe(userId, id);
+      if (existingRating) {
+        userRating = existingRating.value;
+      }
+    }
+
     return {
       ...recipe,
       averageRating: rating.averageRating,
       ratingCount: rating.ratingCount,
+      userRating,
     };
   }
 

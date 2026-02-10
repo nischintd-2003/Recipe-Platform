@@ -20,6 +20,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonIcon from "@mui/icons-material/Person";
 import { useRecipe } from "../hooks/useRecipes";
+import RateRecipe from "../components/RateRecipe";
 
 const RecipeDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -161,6 +162,11 @@ const RecipeDetails = () => {
               {recipe.ingredients}
             </Typography>
           </Paper>
+
+          <RateRecipe
+            recipeId={Number(id)}
+            existingRating={recipe.userRating}
+          />
         </Box>
 
         {/* Right Column: Steps */}
