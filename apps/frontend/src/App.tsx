@@ -7,8 +7,7 @@ import Home from "./pages/Home";
 import RecipeDetails from "./pages/RecipeDetails";
 import GlobalFab from "./components/GlobalFab";
 import MyRecipes from "./pages/MyRecipes";
-
-const Favorites = () => <h1>Favorites</h1>;
+import Favorites from "./pages/Favorites";
 
 function App() {
   return (
