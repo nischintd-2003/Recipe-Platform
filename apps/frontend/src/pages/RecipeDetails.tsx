@@ -15,13 +15,13 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  IconButton,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonIcon from "@mui/icons-material/Person";
 import { useRecipe } from "../hooks/useRecipes";
 import RateRecipe from "../components/RateRecipe";
+import FavoriteButton from "../components/FavoriteButton";
 
 const RecipeDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -97,7 +97,10 @@ const RecipeDetails = () => {
           <Typography variant="h3" component="h1" fontWeight={800} gutterBottom>
             {recipe.title}
           </Typography>
-          <IconButton>Icon</IconButton>
+          <FavoriteButton
+            recipeId={Number(id)}
+            initialState={recipe.isFavourite}
+          />
         </Box>
 
         <Box display="flex" flexWrap="wrap" gap={2} alignItems="center" mb={2}>
