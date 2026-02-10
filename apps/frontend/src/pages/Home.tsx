@@ -18,6 +18,7 @@ import {
 import { useDebounce } from "../hooks/useDebounce";
 import { useState } from "react";
 import RecipeFiltersUI from "../components/RecipeFiltersUI";
+import heroImage from "../assets/images/recipe-hero-image.jpg";
 
 const Home = () => {
   const [filters, setFilters] = useState<RecipeFilters>(InitialRecipeFilters);
@@ -88,7 +89,7 @@ const Home = () => {
         {/* Image */}
         <Box
           component="img"
-          src="https://picsum.photos/1200/400?blur"
+          src={heroImage}
           alt="Food banner"
           sx={{
             width: "100%",
