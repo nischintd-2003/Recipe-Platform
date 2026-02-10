@@ -4,6 +4,7 @@ import { Recipe } from "../entities/Recipe.entity.js";
 import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
 import { AppError } from "../utils/app.error.js";
 import { RecipeSearchFilter } from "../interfaces/recipeSearchFilter.interface.js";
+import { RawRecipeData } from "../interfaces/rawRecipe.interface.js";
 
 export class RecipeRepository {
   private repository = AppDataSource.getRepository(Recipe);
@@ -38,18 +39,33 @@ export class RecipeRepository {
     limit = 10,
   ): Promise<Recipe[]> {
     try {
-      return await this.repository.find({
-        where: {
-          user: { id: userId },
-        },
-        relations: {
-          user: true,
-        },
-        order: {
-          createdAt: "DESC",
-        },
-        skip: (page - 1) * limit,
-        take: limit,
+      const qb = this.repository
+        .createQueryBuilder("recipe")
+        .leftJoinAndSelect("recipe.user", "user")
+        .leftJoin("recipe.ratings", "rating")
+        .where("recipe.userId = :userId", { userId })
+
+        .addSelect("AVG(rating.value)", "averageRating")
+        .addSelect("COUNT(rating.id)", "ratingCount")
+
+        .groupBy("recipe.id")
+        .addGroupBy("user.id")
+
+        .orderBy("recipe.createdAt", "DESC")
+        .skip((page - 1) * limit)
+        .take(limit);
+
+      const { entities, raw } = await qb.getRawAndEntities();
+
+      const typedRaw = raw as RawRecipeData[];
+
+      return entities.map((recipe) => {
+        const rawData = typedRaw.find((r) => r.recipe_id === recipe.id);
+        return {
+          ...recipe,
+          averageRating: rawData ? Number(rawData.averageRating) : 0,
+          ratingCount: rawData ? Number(rawData.ratingCount) : 0,
+        };
       });
     } catch {
       throw new AppError("Failed to fetch user recipes", 500);
