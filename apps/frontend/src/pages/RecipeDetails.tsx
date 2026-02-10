@@ -15,6 +15,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  IconButton,
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -92,9 +93,12 @@ const RecipeDetails = () => {
 
       {/* Title & Metadata */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h3" component="h1" fontWeight={800} gutterBottom>
-          {recipe.title}
-        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h3" component="h1" fontWeight={800} gutterBottom>
+            {recipe.title}
+          </Typography>
+          <IconButton>Icon</IconButton>
+        </Box>
 
         <Box display="flex" flexWrap="wrap" gap={2} alignItems="center" mb={2}>
           <Chip

@@ -13,6 +13,7 @@ export interface Recipe {
     email: string;
   };
   userRating?: number | null;
+  isFavourite?: boolean;
 }
 
 export interface CreateRecipePayload {

@@ -3,6 +3,7 @@ import { Recipe } from "../entities/Recipe.entity.js";
 import { User } from "../entities/User.entity.js";
 import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
 import { RecipeSearchFilter } from "../interfaces/recipeSearchFilter.interface.js";
+import { FavouriteRepository } from "../repositories/favourite.repository.js";
 import { RatingRepository } from "../repositories/rating.repository.js";
 import { RecipeRepository } from "../repositories/recipe.repository.js";
 import { AppError } from "../utils/app.error.js";
@@ -33,6 +34,7 @@ export class RecipeService {
   static async getRecipeById(id: number, userId?: number) {
     const recipeRepo = new RecipeRepository();
     const ratingRepo = new RatingRepository();
+    const favouriteRepo = new FavouriteRepository();
 
     const recipe = await recipeRepo.getRecipeById(id);
 
@@ -50,11 +52,18 @@ export class RecipeService {
       }
     }
 
+    let isFavourite = false;
+    if (userId) {
+      const fav = await favouriteRepo.find(userId, id);
+      isFavourite = !!fav;
+    }
+
     return {
       ...recipe,
       averageRating: rating.averageRating,
       ratingCount: rating.ratingCount,
       userRating,
+      isFavourite,
     };
   }
 
