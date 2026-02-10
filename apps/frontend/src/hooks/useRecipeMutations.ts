@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createRecipe, rateRecipe } from "../api/recipe.api";
+import {
+  createRecipe,
+  deleteRecipe,
+  rateRecipe,
+  updateRecipe,
+} from "../api/recipe.api";
 import type { CreateRecipePayload } from "../interfaces/recipe.interface";
 import { addFavorite, removeFavorite } from "../api/favorite.api";
 import { useNavigate } from "react-router-dom";
@@ -53,6 +58,32 @@ export const useToggleFavoriteMutation = () => {
       queryClient.invalidateQueries({
         queryKey: ["recipe", String(variables.id)],
       });
+    },
+  });
+};
+
+export const useUpdateRecipeMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: number; data: CreateRecipePayload }) =>
+      updateRecipe(id, data),
+    onSuccess: (data) => {
+      queryClient.setQueryData(["recipe", String(data.id)], data);
+      queryClient.invalidateQueries({ queryKey: ["recipes"] });
+    },
+  });
+};
+
+export const useDeleteRecipeMutation = () => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: (id: number) => deleteRecipe(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      navigate("/", { replace: true });
     },
   });
 };
