@@ -176,7 +176,7 @@ const Home = () => {
           variant="outlined"
           onClick={() => handlePageChange((filters.page || 1) + 1)}
           disabled={
-            isPlaceholderData || (recipes?.length || 0) < (filters.limit || 9)
+            isPlaceholderData || (recipes?.length || 0) < (filters.limit || CONFIG.PAGINATION_LIMIT)
           }
         >
           <ChevronRightIcon />

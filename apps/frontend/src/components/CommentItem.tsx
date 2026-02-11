@@ -102,6 +102,7 @@ const CommentItem = ({ comment, onEdit, onDelete }: CommentItemProps) => {
             <TextField
               fullWidth
               multiline
+              id="comment-item-content"
               size="small"
               value={editValue}
               onChange={(e) => setEditValue(e.target.value)}

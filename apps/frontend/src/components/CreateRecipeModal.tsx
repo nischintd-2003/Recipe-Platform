@@ -136,8 +136,7 @@ const CreateRecipeModal = ({
 
       <Box px={3} pb={2}>
         <Typography variant="body2" color="text.secondary">
-          Fill in the details below to share your masterpiece with the food
-          community.
+          {COMPONENTS.CREATE_RECIPE_MODAL.FILL_DETAILS}
         </Typography>
       </Box>
 
@@ -154,11 +153,12 @@ const CreateRecipeModal = ({
           {/* Title & Prep Time */}
           <Grid size={{ xs: 12, md: 8 }}>
             <Typography variant="subtitle2" fontWeight={700} mb={1}>
-              RECIPE TITLE
+              {COMPONENTS.CREATE_RECIPE_MODAL.RECIPE_TITLE}
             </Typography>
             <TextField
               placeholder="e.g. Pasta"
               name="title"
+              id="recipe-modal-title"
               value={form.title}
               onChange={handleChange}
               error={!!errors.title}
@@ -170,11 +170,12 @@ const CreateRecipeModal = ({
 
           <Grid size={{ xs: 12, md: 4 }}>
             <Typography variant="subtitle2" fontWeight={700} mb={1}>
-              PREP TIME (MINS)
+              {COMPONENTS.CREATE_RECIPE_MODAL.PREP_TIME}
             </Typography>
             <TextField
               placeholder="e.g. 45"
               name="prepTime"
+              id="recipe-modal-preptime"
               type="number"
               value={form.prepTime || ""}
               onChange={handleChange}
@@ -210,6 +211,7 @@ const CreateRecipeModal = ({
             <TextField
               name="ingredients"
               multiline
+              id="recipe-modal-ingredients"
               rows={5}
               value={form.ingredients}
               onChange={handleChange}
@@ -233,6 +235,7 @@ const CreateRecipeModal = ({
               name="steps"
               multiline
               rows={6}
+               id="recipe-modal-steps"
               value={form.steps}
               onChange={handleChange}
               error={!!errors.steps}

@@ -138,6 +138,8 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
           {mode === "signup" && (
             <TextField
               label="Username"
+              id="username"
+              name="username"
               value={form.username}
               onChange={handleChange("username")}
               error={Boolean(errors.username)}
@@ -148,6 +150,8 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
 
           <TextField
             label="Email"
+            id="email"
+            name="email"
             value={form.email}
             onChange={handleChange("email")}
             error={Boolean(errors.email)}
@@ -157,6 +161,8 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
 
           <TextField
             label="Password"
+            id="password"
+            name="password"
             type="password"
             value={form.password}
             onChange={handleChange("password")}

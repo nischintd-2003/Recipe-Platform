@@ -44,7 +44,10 @@ const RecipeFiltersUI = ({
         {/* Search Bar */}
         <TextField
           placeholder="Search recipes, ingredients..."
+          id="search-recipes"
           variant="outlined"
+          name="search"
+          autoComplete="off"
           size="medium"
           fullWidth
           value={filters.q || ""}
@@ -130,6 +133,7 @@ const RecipeFiltersUI = ({
             <TextField
               select
               fullWidth
+              id="filter-recipes"
               size="small"
               value={filters.sort || "latest"}
               onChange={(e) =>

@@ -101,6 +101,8 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
             multiline
             rows={2}
             placeholder={PLACEHOLDER.WRITE_COMMENT}
+            id="new-comment"
+            name="comment"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             sx={{ bgcolor: "background.paper", borderRadius: 1 }}
