@@ -6,9 +6,12 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useToggleFavoriteMutation } from "../hooks/useRecipeMutations";
 import { useAuth } from "../context/auth.context";
 import type { FavoriteButtonProps } from "../interfaces/props.interface";
+import { MESSAGES } from "../config/constants";
 
-
-const FavoriteButton = ({ recipeId, initialState = false }: FavoriteButtonProps) => {
+const FavoriteButton = ({
+  recipeId,
+  initialState = false,
+}: FavoriteButtonProps) => {
   const { state } = useAuth();
 
   const [isFavorited, setIsFavorited] = useState(initialState);
@@ -23,7 +26,7 @@ const FavoriteButton = ({ recipeId, initialState = false }: FavoriteButtonProps)
     e.stopPropagation();
 
     if (!state.isAuthenticated) {
-      toast.error("Please log in to add recipes to favorites");
+      toast.error(MESSAGES.ERROR.LOGIN_FIRST);
       return;
     }
 

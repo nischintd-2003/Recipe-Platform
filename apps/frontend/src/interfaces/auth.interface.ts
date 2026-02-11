@@ -32,8 +32,14 @@ export type SignupPayload = {
   password: string;
 };
 
-export interface FormState {
+export interface AuthFormState {
   username: string;
   email: string;
   password: string;
 }
+
+export const InitialAuthFormState: AuthFormState = {
+  username: "",
+  email: "",
+  password: "",
+};

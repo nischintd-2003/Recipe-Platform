@@ -15,7 +15,7 @@ import CommentItem from "./CommentItem";
 import { toast } from "react-toastify";
 import ConfirmationModal from "./ConfirmationModal";
 import type { CommentSectionProps } from "../interfaces/props.interface";
-
+import { BUTTON, COMPONENTS, MESSAGES, PLACEHOLDER } from "../config/constants";
 
 const CommentSection = ({ recipeId }: CommentSectionProps) => {
   const { state } = useAuth();
@@ -36,7 +36,7 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
         onSuccess: () => {
           setNewComment("");
         },
-        onError: () => toast.error("Failed to add comment"),
+        onError: () => toast.error(MESSAGES.ERROR.ADD_FAILED),
       },
     );
   };
@@ -44,7 +44,7 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
   const handleEdit = (commentId: number, content: string) => {
     updateMutation.mutate(
       { recipeId, commentId, content },
-      { onError: () => toast.error("Failed to update comment") },
+      { onError: () => toast.error(MESSAGES.ERROR.UPDATE_FAILED) },
     );
   };
 
@@ -60,7 +60,7 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
           setDeleteModalOpen(false);
           setCommentToDelete(null);
         },
-        onError: () => toast.error("Failed to delete comment"),
+        onError: () => toast.error(MESSAGES.ERROR.DELETE_FAILED),
       });
     }
   };
@@ -70,7 +70,7 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
   return (
     <Box mt={6}>
       <Typography variant="h5" fontWeight={700} gutterBottom>
-        Comments ({comments?.length || 0})
+        {COMPONENTS.COMMENTS_SECTION.COMMENTS} ({comments?.length || 0})
       </Typography>
 
       <Divider sx={{ mb: 4 }} />
@@ -79,7 +79,7 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
       <Box sx={{ mb: 4 }}>
         {comments?.length === 0 ? (
           <Typography color="text.secondary" fontStyle="italic">
-            No comments yet. Be the first to share your thoughts!
+            {COMPONENTS.COMMENTS_SECTION.NO_COMMENTS_YET}
           </Typography>
         ) : (
           comments?.map((comment) => (
@@ -100,7 +100,7 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
             fullWidth
             multiline
             rows={2}
-            placeholder="Write a comment..."
+            placeholder={PLACEHOLDER.WRITE_COMMENT}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             sx={{ bgcolor: "background.paper", borderRadius: 1 }}
@@ -118,19 +118,21 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
             onClick={handleSubmit}
             disabled={!newComment.trim() || addMutation.isPending}
           >
-            Post
+            {BUTTON.POST}
           </Button>
         </Box>
       ) : (
-        <Alert severity="info">Please log in to leave a comment.</Alert>
+        <Alert severity="info">
+          {COMPONENTS.COMMENTS_SECTION.PLEASE_LOGIN}
+        </Alert>
       )}
 
       <ConfirmationModal
         open={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={confirmDelete}
-        title="Delete Comment?"
-        description="Are you sure you want to remove this comment?"
+        title={COMPONENTS.COMMENTS_SECTION.DELETE_COMMENT}
+        description={COMPONENTS.COMMENTS_SECTION.DELETE_COMMENT_DESCRIPTION}
         isLoading={deleteMutation.isPending}
       />
     </Box>

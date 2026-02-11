@@ -3,6 +3,7 @@ import { Fab, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useAuth } from "../context/auth.context";
 import CreateRecipeModal from "./CreateRecipeModal";
+import { COMPONENTS } from "../config/constants";
 
 const GlobalFab = () => {
   const { state } = useAuth();
@@ -27,7 +28,7 @@ const GlobalFab = () => {
           onClick={() => setOpen(true)}
         >
           <AddIcon sx={{ mr: 1 }} />
-          Create Recipe
+          {COMPONENTS.GLOBAL_FAB.CREATE_RECIPE}
         </Fab>
       </Tooltip>
 

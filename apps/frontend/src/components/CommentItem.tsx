@@ -13,7 +13,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDistanceToNow } from "date-fns";
 import { useAuth } from "../context/auth.context";
 import type { CommentItemProps } from "../interfaces/props.interface";
-
+import { BUTTON } from "../config/constants";
 
 const CommentItem = ({ comment, onEdit, onDelete }: CommentItemProps) => {
   const { state } = useAuth();
@@ -80,7 +80,7 @@ const CommentItem = ({ comment, onEdit, onDelete }: CommentItemProps) => {
                     setAnchorEl(null);
                   }}
                 >
-                  Edit
+                  {BUTTON.EDIT}
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
@@ -89,7 +89,7 @@ const CommentItem = ({ comment, onEdit, onDelete }: CommentItemProps) => {
                   }}
                   sx={{ color: "error.main" }}
                 >
-                  Delete
+                  {BUTTON.DELETE}
                 </MenuItem>
               </Menu>
             </>
@@ -109,10 +109,10 @@ const CommentItem = ({ comment, onEdit, onDelete }: CommentItemProps) => {
             />
             <Box display="flex" gap={1} justifyContent="flex-end">
               <Button size="small" onClick={() => setIsEditing(false)}>
-                Cancel
+                {BUTTON.CANCEL}
               </Button>
               <Button size="small" variant="contained" onClick={handleSave}>
-                Save
+                {BUTTON.SAVE}
               </Button>
             </Box>
           </Box>

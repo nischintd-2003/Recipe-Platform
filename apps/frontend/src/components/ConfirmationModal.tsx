@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import type { ConfirmationModalProps } from "../interfaces/props.interface";
+import { BUTTON } from "../config/constants";
 
 const ConfirmationModal = ({
   open,
@@ -49,7 +50,7 @@ const ConfirmationModal = ({
           disabled={isLoading}
           sx={{ fontWeight: 600 }}
         >
-          Cancel
+          {BUTTON.CANCEL}
         </Button>
         <Button
           onClick={onConfirm}
@@ -59,7 +60,7 @@ const ConfirmationModal = ({
           disableElevation
           sx={{ fontWeight: 600 }}
         >
-          {isLoading ? "Deleting..." : "Delete"}
+          {isLoading ? BUTTON.DELETING : BUTTON.DELETE}
         </Button>
       </DialogActions>
     </Dialog>

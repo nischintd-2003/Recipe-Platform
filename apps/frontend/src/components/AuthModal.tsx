@@ -12,9 +12,14 @@ import { isAxiosError } from "axios";
 import { storage } from "../utils/storage";
 import { loginSchema, signupSchema } from "../validation/auth.schema";
 import { useAuth } from "../context/auth.context";
-import type { AuthMode, FormState } from "../interfaces/auth.interface";
+import {
+  InitialAuthFormState,
+  type AuthMode,
+  type AuthFormState,
+} from "../interfaces/auth.interface";
 import { useLoginMutation, useSignupMutation } from "../hooks/useAuth";
 import type { AuthModalProps } from "../interfaces/props.interface";
+import { COMPONENTS } from "../config/constants";
 
 const modalStyle = {
   position: "absolute",
@@ -32,9 +37,6 @@ const modalStyle = {
   outline: "none",
 };
 
-
-
-
 const AuthModal = ({ open, onClose }: AuthModalProps) => {
   const { dispatch } = useAuth();
   const [mode, setMode] = useState<AuthMode>("login");
@@ -43,13 +45,11 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
   const signupMutation = useSignupMutation();
 
   const promptText =
-    mode === "login" ? "Don't have an account? " : "Already have an account? ";
+    mode === "login"
+      ? `${COMPONENTS.AUTHMODAL.SIGNUP_ACCOUNT_TEXT}`
+      : `${COMPONENTS.AUTHMODAL.LOGIN_ACCOUNT_TEXT}`;
 
-  const [form, setForm] = useState<FormState>({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [form, setForm] = useState<AuthFormState>(InitialAuthFormState);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -173,10 +173,10 @@ const AuthModal = ({ open, onClose }: AuthModalProps) => {
             disabled={loginMutation.isPending || signupMutation.isPending}
           >
             {loginMutation.isPending || signupMutation.isPending
-              ? "Processing..."
+              ? COMPONENTS.AUTHMODAL.PROCESSING
               : mode === "login"
-                ? "Login"
-                : "Sign Up"}
+                ? COMPONENTS.AUTHMODAL.LOGIN
+                : COMPONENTS.AUTHMODAL.SIGNUP}
           </Button>
 
           <Typography

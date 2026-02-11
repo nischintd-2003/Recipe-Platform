@@ -31,6 +31,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import CreateRecipeModal from "../components/CreateRecipeModal";
 import ConfirmationModal from "../components/ConfirmationModal";
+import { BUTTON, MESSAGES } from "../config/constants";
 
 const RecipeDetails = () => {
   const { state } = useAuth();
@@ -49,11 +50,11 @@ const RecipeDetails = () => {
     if (recipe) {
       deleteMutation.mutate(recipe.id, {
         onSuccess: () => {
-          toast.success("Recipe deleted successfully");
+          toast.success(MESSAGES.SUCCESS.RECIPE_DELETED);
           setDeleteModalOpen(false);
         },
         onError: () => {
-          toast.error("Failed to delete recipe");
+          toast.error(MESSAGES.ERROR.DELETE_FAILED);
           setDeleteModalOpen(false);
         },
       });
@@ -91,7 +92,7 @@ const RecipeDetails = () => {
           onClick={() => navigate(-1)}
           sx={{ mt: 2 }}
         >
-          Go Back
+          {MESSAGES.RECIPE_DETAILS.GO_BACK}
         </Button>
       </Container>
     );
@@ -111,7 +112,7 @@ const RecipeDetails = () => {
           onClick={() => navigate(-1)}
           sx={{ mb: 2, color: "text.secondary" }}
         >
-          Back to Recipes
+          {MESSAGES.RECIPE_DETAILS.RECIPE_BACK}
         </Button>
 
         {isOwner && (
@@ -122,7 +123,7 @@ const RecipeDetails = () => {
               onClick={() => setEditModalOpen(true)}
               size="small"
             >
-              Edit
+              {BUTTON.EDIT}
             </Button>
             <Button
               variant="outlined"
@@ -131,7 +132,7 @@ const RecipeDetails = () => {
               onClick={() => setDeleteModalOpen(true)}
               size="small"
             >
-              Delete
+              {BUTTON.DELETE}
             </Button>
           </Box>
         )}
@@ -178,7 +179,7 @@ const RecipeDetails = () => {
               readOnly
             />
             <Typography variant="body2" color="text.secondary">
-              ({recipe.ratingCount} reviews)
+              ({recipe.ratingCount} {MESSAGES.RECIPE_DETAILS.REVIEWS})
             </Typography>
           </Box>
         </Box>
@@ -221,7 +222,7 @@ const RecipeDetails = () => {
               gutterBottom
               color="primary.dark"
             >
-              Ingredients
+              {MESSAGES.RECIPE_DETAILS.INGRIDIENTS}
             </Typography>
             <Typography
               variant="body1"
@@ -290,8 +291,8 @@ const RecipeDetails = () => {
             open={deleteModalOpen}
             onClose={() => setDeleteModalOpen(false)}
             onConfirm={handleDeleteConfirm}
-            title="Delete Recipe?"
-            description="Are you sure you want to delete this recipe? This action cannot be undone."
+            title={MESSAGES.UI.CONFIRM_DELETE_TITLE}
+            description={MESSAGES.UI.CONFIRM_DELETE_DESC}
             isLoading={deleteMutation.isPending}
           />
         </>

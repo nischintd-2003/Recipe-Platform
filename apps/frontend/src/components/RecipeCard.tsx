@@ -12,7 +12,6 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useNavigate } from "react-router-dom";
 import type { RecipeCardProps } from "../interfaces/props.interface";
 
-
 const RecipeCard = ({ recipe }: RecipeCardProps) => {
   const navigate = useNavigate();
 

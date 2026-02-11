@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { uploadImageToCloudinary } from "../utils/cloudinary";
 import { toast } from "react-toastify";
 import type { ImageUploadProps } from "../interfaces/props.interface";
+import { BUTTON, COMPONENTS, MESSAGES, VALIDATION } from "../config/constants";
 
 const ImageUpload = ({ value, onChange, error }: ImageUploadProps) => {
   const [loading, setLoading] = useState(false);
@@ -13,8 +14,8 @@ const ImageUpload = ({ value, onChange, error }: ImageUploadProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("File is too large (Max 5MB)");
+    if (file.size > VALIDATION.FILE.MAX_SIZE_BYTES) {
+      toast.error(MESSAGES.VALIDATION.FILE_TOO_LARGE);
       return;
     }
 
@@ -23,7 +24,7 @@ const ImageUpload = ({ value, onChange, error }: ImageUploadProps) => {
       const url = await uploadImageToCloudinary(file);
       onChange(url);
     } catch {
-      toast.error("Failed to upload image");
+      toast.error(MESSAGES.ERROR.UPLOAD_FAILED);
     } finally {
       setLoading(false);
     }
@@ -62,7 +63,7 @@ const ImageUpload = ({ value, onChange, error }: ImageUploadProps) => {
               color: "text.secondary",
             }}
           >
-            {loading ? "Uploading..." : "Upload Cover Image"}
+            {loading ? BUTTON.UPLOADING : COMPONENTS.IMAGE_UPLOAD.UPLOAD_IMAGE}
           </Button>
         </label>
       ) : (

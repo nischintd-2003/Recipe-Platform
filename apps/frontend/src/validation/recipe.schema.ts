@@ -1,12 +1,24 @@
 import * as z from "zod";
+import { MESSAGES, VALIDATION } from "../config/constants";
 
 export const createRecipeSchema = z.object({
-  title: z.string().min(3, { error: "Title must be at least 3 characters" }),
-  ingredients: z.string().min(10, { error: "List at least a few ingredients" }),
-  steps: z.string().min(10, { error: "Describe the steps clearly" }),
-  prepTime: z.coerce.number().min(1, { error: "Prep time must be positive" }),
+  title: z.string().min(VALIDATION.RECIPE.TITLE_MIN_LEN, {
+    error: MESSAGES.VALIDATION.TITLE_SHORT,
+  }),
+  ingredients: z.string().min(VALIDATION.RECIPE.INGREDIENTS_MIN_LEN, {
+    error: MESSAGES.VALIDATION.INGREDIENTS_SHORT,
+  }),
+  steps: z.string().min(VALIDATION.RECIPE.STEPS_MIN_LEN, {
+    error: MESSAGES.VALIDATION.STEPS_SHORT,
+  }),
+  prepTime: z.coerce.number().min(VALIDATION.RECIPE.PREP_TIME_MIN, {
+    error: MESSAGES.VALIDATION.PREP_TIME_INVALID,
+  }),
   image: z
-    .union([z.url({ error: () => "Must be a valid URL" }), z.literal("")])
+    .union([
+      z.url({ error: () => MESSAGES.VALIDATION.URL_INVALID }),
+      z.literal(""),
+    ])
     .optional(),
 });
 

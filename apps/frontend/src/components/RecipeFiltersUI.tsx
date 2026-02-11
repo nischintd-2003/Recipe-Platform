@@ -23,9 +23,13 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import StarIcon from "@mui/icons-material/Star";
 import SortIcon from "@mui/icons-material/Sort";
 import type { RecipeFiltersUIProps } from "../interfaces/props.interface";
+import { BUTTON, COMPONENTS } from "../config/constants";
 
-
-const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIProps) => {
+const RecipeFiltersUI = ({
+  filters,
+  onFilterChange,
+  onClear,
+}: RecipeFiltersUIProps) => {
   const [open, setOpen] = useState(false);
 
   const activeFiltersCount = [
@@ -76,7 +80,7 @@ const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIPr
               },
             }}
           >
-            Filters
+            {BUTTON.FILTERS}
           </Button>
         </Badge>
       </Box>
@@ -98,7 +102,7 @@ const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIPr
           }}
         >
           <Typography variant="h6" fontWeight={700}>
-            Filter & Sort
+            {COMPONENTS.RECIPE_FILTER.FILTER_SORT}
           </Typography>
           <IconButton onClick={() => setOpen(false)} size="small">
             <CloseIcon />
@@ -120,7 +124,8 @@ const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIPr
               alignItems="center"
               gap={1}
             >
-              <SortIcon fontSize="small" color="primary" /> Sort By
+              <SortIcon fontSize="small" color="primary" />{" "}
+              {COMPONENTS.RECIPE_FILTER.SORT_BY}
             </Typography>
             <TextField
               select
@@ -134,8 +139,12 @@ const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIPr
                 })
               }
             >
-              <MenuItem value="latest">Newest First</MenuItem>
-              <MenuItem value="rating">Highest Rated</MenuItem>
+              <MenuItem value="latest">
+                {COMPONENTS.RECIPE_FILTER.NEW_FIRST}
+              </MenuItem>
+              <MenuItem value="rating">
+                {COMPONENTS.RECIPE_FILTER.HIGH_RATED_FIRST}
+              </MenuItem>
             </TextField>
           </Box>
 
@@ -149,7 +158,8 @@ const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIPr
               alignItems="center"
               gap={1}
             >
-              <StarIcon fontSize="small" color="primary" /> Minimum Rating
+              <StarIcon fontSize="small" color="primary" />{" "}
+              {COMPONENTS.RECIPE_FILTER.MINIMUM_RATING}
             </Typography>
             <Box display="flex" alignItems="center" gap={2}>
               <Rating
@@ -173,13 +183,16 @@ const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIPr
               alignItems="center"
               gap={1}
             >
-              <AccessTimeIcon fontSize="small" color="primary" /> Max Prep Time
+              <AccessTimeIcon fontSize="small" color="primary" />{" "}
+              {COMPONENTS.RECIPE_FILTER.MAX_PREP_TIME}
             </Typography>
             <Box px={1}>
               <Slider
-                value={filters.maxPrepTime || 120}
+                value={
+                  filters.maxPrepTime || COMPONENTS.RECIPE_FILTER.MAX_NUM_TIME
+                }
                 min={10}
-                max={120}
+                max={COMPONENTS.RECIPE_FILTER.MAX_NUM_TIME}
                 step={5}
                 valueLabelDisplay="auto"
                 valueLabelFormat={(v) => `${v}m`}
@@ -189,10 +202,11 @@ const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIPr
               />
               <Box display="flex" justifyContent="space-between" mt={-1}>
                 <Typography variant="caption" color="text.secondary">
-                  10m
+                  {COMPONENTS.RECIPE_FILTER.TEN}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  {filters.maxPrepTime && filters.maxPrepTime < 180
+                  {filters.maxPrepTime &&
+                  filters.maxPrepTime < COMPONENTS.RECIPE_FILTER.MAX_NUM_TIME
                     ? `${filters.maxPrepTime}m`
                     : "Any"}
                 </Typography>
@@ -209,14 +223,14 @@ const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIPr
             color="inherit"
             disabled={activeFiltersCount === 0}
           >
-            Clear All
+            {BUTTON.CLEAR_ALL}
           </Button>
           <Button
             onClick={() => setOpen(false)}
             variant="contained"
             disableElevation
           >
-            Show Results
+            {BUTTON.SHOW_RESULTS}
           </Button>
         </DialogActions>
       </Dialog>

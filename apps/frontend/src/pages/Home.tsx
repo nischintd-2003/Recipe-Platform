@@ -19,11 +19,12 @@ import { useDebounce } from "../hooks/useDebounce";
 import { useState } from "react";
 import RecipeFiltersUI from "../components/RecipeFiltersUI";
 import heroImage from "../assets/images/recipe-hero-image.jpg";
+import { APP_NAME, CONFIG, MESSAGES } from "../config/constants";
 
 const Home = () => {
   const [filters, setFilters] = useState<RecipeFilters>(InitialRecipeFilters);
 
-  const debouncedSearch = useDebounce(filters.q, 500);
+  const debouncedSearch = useDebounce(filters.q, CONFIG.DEBOUNCE_DELAY_MS);
 
   const {
     data: recipes,
@@ -69,7 +70,10 @@ const Home = () => {
   if (isError) {
     return (
       <Container sx={{ py: 4 }}>
-        <Alert severity="error">Failed to load recipes: {error.message}</Alert>
+        <Alert severity="error">
+          {MESSAGES.ERROR.GENERIC}
+          {error.message}
+        </Alert>
       </Container>
     );
   }
@@ -116,10 +120,10 @@ const Home = () => {
             <Typography variant="h3" fontWeight={800} color="common.white">
               Explore{" "}
               <Box component="span" color="warning.main">
-                Fudo
+                {APP_NAME}
               </Box>
               <br />
-              Insights
+              {MESSAGES.HOME.INSIGHTS_TEXT}
             </Typography>
           </Box>
         </Box>
@@ -131,7 +135,7 @@ const Home = () => {
         alignItems={"center"}
       >
         <Typography variant="h4" fontWeight={700} mb={4} color="text.primary">
-          Cook Fresh Recipes
+          {MESSAGES.HOME.FRESH_RECIPE_TEXT}
         </Typography>
 
         <RecipeFiltersUI
@@ -143,7 +147,7 @@ const Home = () => {
 
       {recipes?.length === 0 ? (
         <Typography variant="body1" color="text.secondary">
-          No recipes found. Be the first to add one!
+          {MESSAGES.UI.NO_RECIPES}
         </Typography>
       ) : (
         <Grid container spacing={3}>
@@ -165,7 +169,7 @@ const Home = () => {
         </Button>
 
         <Typography variant="body1" alignSelf={"center"}>
-          Page {filters.page}
+          {MESSAGES.HOME.PAGE_TEXT} {filters.page}
         </Typography>
 
         <Button

@@ -13,11 +13,12 @@ import { Menu, MenuItem, Divider, ListItemIcon } from "@mui/material";
 import { useAuth } from "../context/auth.context";
 import { storage } from "../utils/storage";
 import AuthModal from "./AuthModal";
+import { APP_NAME, BUTTON, COMPONENTS, ROUTES } from "../config/constants";
 
 const navLinks = [
-  { name: "Recipes", path: "/recipes" },
-  { name: "My Recipes", path: "/my-recipes" },
-  { name: "Favorite Recipes", path: "/favorites" },
+  { name: "Recipes", path: ROUTES.RECIPES },
+  { name: "My Recipes", path: ROUTES.MY_RECIPES },
+  { name: "Favorite Recipes", path: ROUTES.FAVORITES },
 ];
 
 const Navbar = () => {
@@ -56,7 +57,7 @@ const Navbar = () => {
     storage.clear();
     dispatch({ type: "LOGOUT" });
     handleUserMenuClose();
-    navigate("/");
+    navigate(ROUTES.HOME);
   };
 
   const handleNavigate = (path: string) => {
@@ -92,9 +93,9 @@ const Navbar = () => {
                 letterSpacing: 1,
                 cursor: "pointer",
               }}
-              onClick={() => navigate("/")}
+              onClick={() => navigate(ROUTES.HOME)}
             >
-              Fudo
+              {APP_NAME}
             </Typography>
           </Box>
 
@@ -107,13 +108,14 @@ const Navbar = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 gap: 4,
-                height: "64px", // Fixed height to align the border
+                height: "64px",
               }}
             >
               {navLinks.map((link) => {
                 const isActive =
                   location.pathname === link.path ||
-                  (link.path === "/recipes" && location.pathname === "/");
+                  (link.path === ROUTES.RECIPES &&
+                    location.pathname === ROUTES.HOME);
 
                 return (
                   <Button
@@ -171,7 +173,7 @@ const Navbar = () => {
                 >
                   <MenuItem disabled sx={{ opacity: "1 !important" }}>
                     <Typography variant="body2" color="text.secondary">
-                      Signed in as
+                      {COMPONENTS.NAVBAR.SIGNED_AS}
                     </Typography>
                   </MenuItem>
                   <MenuItem
@@ -196,7 +198,7 @@ const Navbar = () => {
                     <ListItemIcon>
                       <LogoutIcon fontSize="small" color="error" />
                     </ListItemIcon>
-                    Logout
+                    {BUTTON.LOGOUT}
                   </MenuItem>
                 </Menu>
               </>
@@ -207,7 +209,7 @@ const Navbar = () => {
                 onClick={() => setAuthOpen(true)}
                 sx={{ borderRadius: 2 }}
               >
-                Login
+                {BUTTON.LOGIN}
               </Button>
             )}
           </Box>

@@ -5,7 +5,7 @@ import { useRateRecipeMutation } from "../hooks/useRecipeMutations";
 import { useAuth } from "../context/auth.context";
 import { isAxiosError } from "axios";
 import type { RateRecipeProps } from "../interfaces/props.interface";
-
+import { COMPONENTS, MESSAGES } from "../config/constants";
 
 const RateRecipe = ({ recipeId, existingRating }: RateRecipeProps) => {
   const { state } = useAuth();
@@ -20,7 +20,7 @@ const RateRecipe = ({ recipeId, existingRating }: RateRecipeProps) => {
     if (!newValue) return;
 
     if (!state.isAuthenticated) {
-      toast.error("Please log in to rate recipes");
+      toast.error(MESSAGES.ERROR.LOGIN_FIRST);
       return;
     }
 
@@ -33,9 +33,11 @@ const RateRecipe = ({ recipeId, existingRating }: RateRecipeProps) => {
         onError: (error) => {
           setValue(existingRating || null);
           if (isAxiosError(error)) {
-            toast.error(error.response?.data?.message || "Failed to rate");
+            toast.error(
+              error.response?.data?.message || MESSAGES.ERROR.OP_FAILED,
+            );
           } else {
-            toast.error("Something went wrong");
+            toast.error(MESSAGES.ERROR.GENERIC);
           }
         },
       },
@@ -56,12 +58,14 @@ const RateRecipe = ({ recipeId, existingRating }: RateRecipeProps) => {
         }}
       >
         <Typography variant="subtitle1" fontWeight={700}>
-          You rated this recipe
+          {COMPONENTS.RATE_RECIPE.YOU_RATED}
         </Typography>
         <Box display="flex" justifyContent="center" my={1}>
           <Rating value={existingRating} readOnly sx={{ color: "white" }} />
         </Box>
-        <Typography variant="caption">Thanks for your feedback!</Typography>
+        <Typography variant="caption">
+          {COMPONENTS.RATE_RECIPE.FEEDBACK}
+        </Typography>
       </Paper>
     );
   }
@@ -80,7 +84,7 @@ const RateRecipe = ({ recipeId, existingRating }: RateRecipeProps) => {
       }}
     >
       <Typography variant="subtitle1" fontWeight={700} gutterBottom>
-        Have you tried this recipe?
+        {COMPONENTS.RATE_RECIPE.RECIPE_TRIED}
       </Typography>
       <Rating
         name="recipe-rating"

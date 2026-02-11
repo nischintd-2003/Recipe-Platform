@@ -24,14 +24,16 @@ import {
   type CreateRecipeForm,
 } from "../validation/recipe.schema";
 import { isAxiosError } from "axios";
-import {
-  InitialCreateRecipeForm
-} from "../interfaces/recipe.interface";
+import { InitialCreateRecipeForm } from "../interfaces/recipe.interface";
 import ImageUpload from "./ImageUpload";
 import type { CreateRecipeModalProps } from "../interfaces/props.interface";
+import { BUTTON, COMPONENTS, MESSAGES } from "../config/constants";
 
-
-const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalProps) => {
+const CreateRecipeModal = ({
+  open,
+  onClose,
+  recipeToEdit,
+}: CreateRecipeModalProps) => {
   const createRecipeMutation = useCreateRecipeMutation();
   const updateRecipeMutation = useUpdateRecipeMutation();
 
@@ -82,9 +84,11 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalPro
 
     const handleError = (error: unknown) => {
       if (isAxiosError(error)) {
-        setServerError(error.response?.data?.message || "Operation failed");
+        setServerError(
+          error.response?.data?.message || MESSAGES.ERROR.OP_FAILED,
+        );
       } else {
-        setServerError("Something went wrong");
+        setServerError(MESSAGES.ERROR.GENERIC);
       }
     };
 
@@ -184,7 +188,7 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalPro
           {/* Image Upload */}
           <Grid size={{ xs: 12 }}>
             <Typography variant="subtitle2" fontWeight={700} mb={1}>
-              COVER IMAGE
+              {COMPONENTS.CREATE_RECIPE_MODAL.COVER_IMAGE}
             </Typography>
             <ImageUpload
               value={form.image}
@@ -201,7 +205,7 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalPro
           {/* Ingredients */}
           <Grid size={{ xs: 12 }}>
             <Typography variant="subtitle2" fontWeight={700} mb={1}>
-              INGREDIENTS
+              {COMPONENTS.CREATE_RECIPE_MODAL.INGRIDIENTS}
             </Typography>
             <TextField
               name="ingredients"
@@ -212,7 +216,7 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalPro
               error={!!errors.ingredients}
               helperText={
                 errors.ingredients ||
-                "List one ingredient per line (e.g. 2 cups Flour)"
+                COMPONENTS.CREATE_RECIPE_MODAL.INGRIDIENTS_TEXT
               }
               placeholder="2 eggs&#10;1 cup flour&#10;1 tsp vanilla extract"
               fullWidth
@@ -223,7 +227,7 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalPro
           {/* Steps */}
           <Grid size={{ xs: 12 }}>
             <Typography variant="subtitle2" fontWeight={700} mb={1}>
-              COOKING INSTRUCTIONS
+              {COMPONENTS.CREATE_RECIPE_MODAL.COOKING_INSTRUCTIONS}
             </Typography>
             <TextField
               name="steps"
@@ -233,7 +237,7 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalPro
               onChange={handleChange}
               error={!!errors.steps}
               helperText={
-                errors.steps || "Describe the steps to prepare your dish..."
+                errors.steps || COMPONENTS.CREATE_RECIPE_MODAL.STEPS_DESCRIPTION
               }
               placeholder="Preheat the oven...&#10;Mix dry ingredients..."
               fullWidth
@@ -252,7 +256,7 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalPro
           variant="outlined"
           sx={{ fontWeight: 600, borderColor: "divider" }}
         >
-          Cancel
+          {BUTTON.CANCEL}
         </Button>
         <Button
           onClick={handleSubmit}
@@ -263,10 +267,10 @@ const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalPro
           sx={{ fontWeight: 600, px: 3, py: 1 }}
         >
           {isLoading
-            ? "Submitting..."
+            ? BUTTON.SUBMITTING
             : isEditMode
-              ? "Save Changes"
-              : "Submit Recipe"}
+              ? BUTTON.SAVE_CHANGES
+              : BUTTON.SUBMIT_RECIPE}
         </Button>
       </DialogActions>
     </Dialog>

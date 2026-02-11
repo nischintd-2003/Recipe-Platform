@@ -9,6 +9,7 @@ import {
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import RecipeCard from "../components/RecipeCard";
 import { useMyRecipes } from "../hooks/useRecipes";
+import { MESSAGES } from "../config/constants";
 
 const MyRecipes = () => {
   const { data: recipes, isLoading, isError, error } = useMyRecipes();
@@ -17,7 +18,7 @@ const MyRecipes = () => {
     return (
       <Container sx={{ py: 4 }}>
         <Typography variant="h4" fontWeight={700} mb={4}>
-          My Recipes
+          {MESSAGES.MY_RECIPE.TITLE}
         </Typography>
         <Grid container spacing={4}>
           {[...Array(6)].map((_, i) => (
@@ -39,7 +40,7 @@ const MyRecipes = () => {
     return (
       <Container sx={{ py: 4 }}>
         <Alert severity="error">
-          Failed to load your recipes: {error.message}
+          {MESSAGES.ERROR.LOAD_FAILED} {error.message}
         </Alert>
       </Container>
     );
@@ -60,7 +61,7 @@ const MyRecipes = () => {
             You haven't posted any recipes yet.
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Click the "Create Recipe" button to share your culinary skills!
+            {MESSAGES.MY_RECIPE.CREATE_OWN_RECIPE}
           </Typography>
         </Box>
       ) : (

@@ -9,6 +9,7 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import RecipeCard from "../components/RecipeCard";
 import { useFavorites } from "../hooks/useFavorites";
+import { MESSAGES } from "../config/constants";
 
 const Favorites = () => {
   const { data: recipes, isLoading, isError, error } = useFavorites();
@@ -17,7 +18,7 @@ const Favorites = () => {
     return (
       <Container sx={{ py: 4 }}>
         <Typography variant="h4" fontWeight={700} mb={4}>
-          Favorite Recipes
+          {MESSAGES.FAVORITE_RECIPE.TITLE}
         </Typography>
         <Grid container spacing={4}>
           {[...Array(6)].map((_, i) => (
@@ -39,7 +40,7 @@ const Favorites = () => {
     return (
       <Container sx={{ py: 4 }}>
         <Alert severity="error">
-          Failed to load favorites: {error.message}
+          {MESSAGES.ERROR.LOAD_FAILED} {error.message}
         </Alert>
       </Container>
     );
@@ -50,17 +51,17 @@ const Favorites = () => {
       <Box display="flex" alignItems="center" gap={2} mb={4}>
         <FavoriteIcon color="error" fontSize="large" />
         <Typography variant="h4" fontWeight={700} color="text.primary">
-          Your Favorites
+          {MESSAGES.FAVORITE_RECIPE.YOUR_FAVORITE}
         </Typography>
       </Box>
 
       {recipes?.length === 0 ? (
         <Box textAlign="center" py={10} bgcolor="grey.50" borderRadius={4}>
           <Typography variant="h6" color="text.secondary" gutterBottom>
-            No favorites yet.
+            {MESSAGES.FAVORITE_RECIPE.NO_FAVORITE_YET}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Save recipes you love to find them here easily!
+            {MESSAGES.FAVORITE_RECIPE.SAVE_FAVORITE}
           </Typography>
         </Box>
       ) : (
