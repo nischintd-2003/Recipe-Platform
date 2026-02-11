@@ -63,7 +63,7 @@ commentRouter.post(
  *       404:
  *         description: Recipe not found
  */
-commentRouter.get("/", validate(commentSchema), CommentController.getComments);
+commentRouter.get("/", CommentController.getComments);
 
 /**
  * @swagger
@@ -107,6 +107,7 @@ commentRouter.get("/", validate(commentSchema), CommentController.getComments);
 commentRouter.patch(
   "/:commentId",
   authMiddleware,
+  validate(commentSchema),
   CommentController.updateComment,
 );
 
