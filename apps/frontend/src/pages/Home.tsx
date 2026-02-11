@@ -91,6 +91,8 @@ const Home = () => {
           component="img"
           src={heroImage}
           alt="Food banner"
+          loading="eager"
+          fetchPriority="high"
           sx={{
             width: "100%",
             height: "100%",
