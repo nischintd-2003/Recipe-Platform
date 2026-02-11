@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { RatingController } from "../controllers/rating.controller.js";
+import { validate } from "../middleware/validate.middleware.js";
+import { ratingSchema } from "../validation/recipe.validation.js";
 
 const ratingRouter: Router = Router({ mergeParams: true });
 
@@ -40,6 +42,11 @@ const ratingRouter: Router = Router({ mergeParams: true });
  *       404:
  *         description: Recipe not found
  */
-ratingRouter.post("/", authMiddleware, RatingController.rateRecipe);
+ratingRouter.post(
+  "/",
+  authMiddleware,
+  validate(ratingSchema),
+  RatingController.rateRecipe,
+);
 
 export default ratingRouter;

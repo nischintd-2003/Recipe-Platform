@@ -5,6 +5,11 @@ import ratingRouter from "./rating.route.js";
 import commentRouter from "./comment.route.js";
 import favouriteRouter from "./favourite.route.js";
 import { optionalAuthMiddleware } from "../middleware/optionalAuth.middleware.js";
+import { validate } from "../middleware/validate.middleware.js";
+import {
+  createRecipeSchema,
+  updateRecipeSchema,
+} from "../validation/recipe.validation.js";
 
 const recipeRouter: Router = Router();
 
@@ -135,7 +140,12 @@ recipeRouter.get(
  *       401:
  *         description: Unauthorized
  */
-recipeRouter.post("/", authMiddleware, RecipeController.createRecipe);
+recipeRouter.post(
+  "/",
+  authMiddleware,
+  validate(createRecipeSchema),
+  RecipeController.createRecipe,
+);
 
 /**
  * @swagger
@@ -176,7 +186,12 @@ recipeRouter.post("/", authMiddleware, RecipeController.createRecipe);
  *       404:
  *         description: Recipe not found
  */
-recipeRouter.patch("/:recipeId", authMiddleware, RecipeController.updateRecipe);
+recipeRouter.patch(
+  "/:recipeId",
+  authMiddleware,
+  validate(updateRecipeSchema),
+  RecipeController.updateRecipe,
+);
 
 /**
  * @swagger

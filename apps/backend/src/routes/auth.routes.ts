@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/auth.controller.js";
+import { validate } from "../middleware/validate.middleware.js";
+import { loginSchema, signupSchema } from "../validation/auth.validation.js";
 
 const authRouter: Router = Router();
 
@@ -28,7 +30,7 @@ const authRouter: Router = Router();
  *         description: User created
  */
 
-authRouter.post("/signup", AuthController.signup);
+authRouter.post("/signup", validate(signupSchema), AuthController.signup);
 
 /**
  * @swagger
@@ -53,6 +55,6 @@ authRouter.post("/signup", AuthController.signup);
  *         description: JWT token returned
  */
 
-authRouter.post("/login", AuthController.login);
+authRouter.post("/login", validate(loginSchema), AuthController.login);
 
 export default authRouter;
