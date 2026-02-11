@@ -33,9 +33,8 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
         <CardMedia
           component="img"
           height="180"
-          image={
-            recipe.imageUrl || "https://placehold.co/600x400?text=No+Image"
-          }
+          image={recipe.imageUrl || "/image-placeholder.webp"}
+          loading="lazy"
           alt={recipe.title}
         />
         <CardContent sx={{ flexGrow: 1 }}>

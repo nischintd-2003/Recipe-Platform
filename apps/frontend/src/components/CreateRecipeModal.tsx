@@ -235,7 +235,7 @@ const CreateRecipeModal = ({
               name="steps"
               multiline
               rows={6}
-               id="recipe-modal-steps"
+              id="recipe-modal-steps"
               value={form.steps}
               onChange={handleChange}
               error={!!errors.steps}

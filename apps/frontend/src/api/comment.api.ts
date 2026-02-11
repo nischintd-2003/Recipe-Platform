@@ -15,7 +15,9 @@ export const addComment = async ({
   recipeId,
   content,
 }: CreateCommentPayload): Promise<Comment> => {
-  const response = await api.post(API_ROUTES.RECIPE.COMMENT(recipeId), { content });
+  const response = await api.post(API_ROUTES.RECIPE.COMMENT(recipeId), {
+    content,
+  });
   return response.data;
 };
 
@@ -24,9 +26,12 @@ export const updateComment = async ({
   commentId,
   content,
 }: UpdateCommentPayload): Promise<Comment> => {
-  const response = await api.patch(API_ROUTES.RECIPE.COMMENT_BY_ID(recipeId,commentId), {
-    content,
-  });
+  const response = await api.patch(
+    API_ROUTES.RECIPE.COMMENT_BY_ID(recipeId, commentId),
+    {
+      content,
+    },
+  );
   return response.data;
 };
 
@@ -34,5 +39,5 @@ export const deleteComment = async (
   recipeId: number,
   commentId: number,
 ): Promise<void> => {
-  await api.delete(API_ROUTES.RECIPE.COMMENT_BY_ID(recipeId,commentId));
+  await api.delete(API_ROUTES.RECIPE.COMMENT_BY_ID(recipeId, commentId));
 };

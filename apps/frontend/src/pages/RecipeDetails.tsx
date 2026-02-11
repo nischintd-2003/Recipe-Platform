@@ -141,7 +141,7 @@ const RecipeDetails = () => {
       {/* Hero Image */}
       <Box
         component="img"
-        src={recipe.imageUrl || "https://placehold.co/800x400?text=No+Image"}
+        src={recipe.imageUrl || "/image-placeholder.webp"}
         alt={recipe.title}
         sx={{
           width: "100%",

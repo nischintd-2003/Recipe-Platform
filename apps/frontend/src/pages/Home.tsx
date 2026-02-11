@@ -18,7 +18,6 @@ import {
 import { useDebounce } from "../hooks/useDebounce";
 import { useState } from "react";
 import RecipeFiltersUI from "../components/RecipeFiltersUI";
-import heroImage from "../assets/images/recipe-hero-image.jpg";
 import { APP_NAME, CONFIG, MESSAGES } from "../config/constants";
 
 const Home = () => {
@@ -93,7 +92,7 @@ const Home = () => {
         {/* Image */}
         <Box
           component="img"
-          src={heroImage}
+          src="/recipe-hero-image.webp"
           alt="Food banner"
           loading="eager"
           fetchPriority="high"
@@ -176,7 +175,8 @@ const Home = () => {
           variant="outlined"
           onClick={() => handlePageChange((filters.page || 1) + 1)}
           disabled={
-            isPlaceholderData || (recipes?.length || 0) < (filters.limit || CONFIG.PAGINATION_LIMIT)
+            isPlaceholderData ||
+            (recipes?.length || 0) < (filters.limit || CONFIG.PAGINATION_LIMIT)
           }
         >
           <ChevronRightIcon />

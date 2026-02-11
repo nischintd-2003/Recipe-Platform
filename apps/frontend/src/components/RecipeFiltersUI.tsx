@@ -133,7 +133,8 @@ const RecipeFiltersUI = ({
             <TextField
               select
               fullWidth
-              id="filter-recipes"
+              id="sort-recipes"
+              name="sort"
               size="small"
               value={filters.sort || "latest"}
               onChange={(e) =>

@@ -103,6 +103,7 @@ const CommentItem = ({ comment, onEdit, onDelete }: CommentItemProps) => {
               fullWidth
               multiline
               id="comment-item-content"
+              name="content"
               size="small"
               value={editValue}
               onChange={(e) => setEditValue(e.target.value)}

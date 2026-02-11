@@ -148,9 +148,10 @@ export const COMPONENTS = {
     COVER_IMAGE: "COVER IMAGE",
     INGRIDIENTS: "INGREDIENTS",
     INGRIDIENTS_TEXT: "List one ingredient per line (e.g. 2 cups Flour)",
-    FILL_DETAILS : "Fill in the details below to share your masterpiece with the food community.",
-    RECIPE_TITLE : "RECIPE TITLE",
-    PREP_TIME:"PREP TIME (MINS)"
+    FILL_DETAILS:
+      "Fill in the details below to share your masterpiece with the food community.",
+    RECIPE_TITLE: "RECIPE TITLE",
+    PREP_TIME: "PREP TIME (MINS)",
   },
   GLOBAL_FAB: {
     CREATE_RECIPE: "Create Recipe",
