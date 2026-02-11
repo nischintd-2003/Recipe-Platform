@@ -12,8 +12,9 @@ import { isAxiosError } from "axios";
 import { storage } from "../utils/storage";
 import { loginSchema, signupSchema } from "../validation/auth.schema";
 import { useAuth } from "../context/auth.context";
-import type { AuthMode } from "../interfaces/auth.interface";
+import type { AuthMode, FormState } from "../interfaces/auth.interface";
 import { useLoginMutation, useSignupMutation } from "../hooks/useAuth";
+import type { AuthModalProps } from "../interfaces/props.interface";
 
 const modalStyle = {
   position: "absolute",
@@ -31,18 +32,10 @@ const modalStyle = {
   outline: "none",
 };
 
-type Props = {
-  open: boolean;
-  onClose: () => void;
-};
 
-interface FormState {
-  username: string;
-  email: string;
-  password: string;
-}
 
-const AuthModal = ({ open, onClose }: Props) => {
+
+const AuthModal = ({ open, onClose }: AuthModalProps) => {
   const { dispatch } = useAuth();
   const [mode, setMode] = useState<AuthMode>("login");
 

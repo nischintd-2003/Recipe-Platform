@@ -4,14 +4,9 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { uploadImageToCloudinary } from "../utils/cloudinary";
 import { toast } from "react-toastify";
+import type { ImageUploadProps } from "../interfaces/props.interface";
 
-interface Props {
-  value?: string;
-  onChange: (url: string) => void;
-  error?: boolean;
-}
-
-const ImageUpload = ({ value, onChange, error }: Props) => {
+const ImageUpload = ({ value, onChange, error }: ImageUploadProps) => {
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {

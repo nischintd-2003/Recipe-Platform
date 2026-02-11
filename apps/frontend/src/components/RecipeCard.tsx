@@ -10,13 +10,10 @@ import {
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useNavigate } from "react-router-dom";
-import type { Recipe } from "../interfaces/recipe.interface";
+import type { RecipeCardProps } from "../interfaces/props.interface";
 
-interface Props {
-  recipe: Recipe;
-}
 
-const RecipeCard = ({ recipe }: Props) => {
+const RecipeCard = ({ recipe }: RecipeCardProps) => {
   const navigate = useNavigate();
 
   return (

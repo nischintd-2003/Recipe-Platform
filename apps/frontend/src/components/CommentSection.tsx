@@ -14,12 +14,10 @@ import { useComments, useCommentMutations } from "../hooks/useComment";
 import CommentItem from "./CommentItem";
 import { toast } from "react-toastify";
 import ConfirmationModal from "./ConfirmationModal";
+import type { CommentSectionProps } from "../interfaces/props.interface";
 
-interface Props {
-  recipeId: number;
-}
 
-const CommentSection = ({ recipeId }: Props) => {
+const CommentSection = ({ recipeId }: CommentSectionProps) => {
   const { state } = useAuth();
   const { data: comments, isLoading } = useComments(recipeId);
   const { addMutation, updateMutation, deleteMutation } =

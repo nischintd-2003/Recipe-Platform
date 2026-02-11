@@ -22,15 +22,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import StarIcon from "@mui/icons-material/Star";
 import SortIcon from "@mui/icons-material/Sort";
-import type { RecipeFilters } from "../interfaces/recipe.interface";
+import type { RecipeFiltersUIProps } from "../interfaces/props.interface";
 
-interface Props {
-  filters: RecipeFilters;
-  onFilterChange: (newFilters: Partial<RecipeFilters>) => void;
-  onClear: () => void;
-}
 
-const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: Props) => {
+const RecipeFiltersUI = ({ filters, onFilterChange, onClear }: RecipeFiltersUIProps) => {
   const [open, setOpen] = useState(false);
 
   const activeFiltersCount = [

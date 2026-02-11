@@ -7,15 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-
-interface Props {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  title?: string;
-  description?: string;
-  isLoading?: boolean;
-}
+import type { ConfirmationModalProps } from "../interfaces/props.interface";
 
 const ConfirmationModal = ({
   open,
@@ -24,7 +16,7 @@ const ConfirmationModal = ({
   title,
   description,
   isLoading = false,
-}: Props) => {
+}: ConfirmationModalProps) => {
   return (
     <Dialog
       open={open}

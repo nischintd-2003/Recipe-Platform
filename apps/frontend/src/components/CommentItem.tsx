@@ -12,15 +12,10 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDistanceToNow } from "date-fns";
 import { useAuth } from "../context/auth.context";
-import type { Comment } from "../interfaces/comment.interface";
+import type { CommentItemProps } from "../interfaces/props.interface";
 
-interface Props {
-  comment: Comment;
-  onEdit: (id: number, content: string) => void;
-  onDelete: (id: number) => void;
-}
 
-const CommentItem = ({ comment, onEdit, onDelete }: Props) => {
+const CommentItem = ({ comment, onEdit, onDelete }: CommentItemProps) => {
   const { state } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(comment.content);

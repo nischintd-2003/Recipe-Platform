@@ -31,3 +31,9 @@ export type SignupPayload = {
   email: string;
   password: string;
 };
+
+export interface FormState {
+  username: string;
+  email: string;
+  password: string;
+}

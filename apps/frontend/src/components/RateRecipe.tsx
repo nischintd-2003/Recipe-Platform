@@ -4,13 +4,10 @@ import { toast } from "react-toastify";
 import { useRateRecipeMutation } from "../hooks/useRecipeMutations";
 import { useAuth } from "../context/auth.context";
 import { isAxiosError } from "axios";
+import type { RateRecipeProps } from "../interfaces/props.interface";
 
-interface Props {
-  recipeId: number;
-  existingRating?: number | null;
-}
 
-const RateRecipe = ({ recipeId, existingRating }: Props) => {
+const RateRecipe = ({ recipeId, existingRating }: RateRecipeProps) => {
   const { state } = useAuth();
   const rateRecipemutation = useRateRecipeMutation();
   const [value, setValue] = useState<number | null>(existingRating || null);

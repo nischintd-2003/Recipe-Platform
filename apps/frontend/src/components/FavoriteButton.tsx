@@ -5,13 +5,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useToggleFavoriteMutation } from "../hooks/useRecipeMutations";
 import { useAuth } from "../context/auth.context";
+import type { FavoriteButtonProps } from "../interfaces/props.interface";
 
-interface Props {
-  recipeId: number;
-  initialState?: boolean;
-}
 
-const FavoriteButton = ({ recipeId, initialState = false }: Props) => {
+const FavoriteButton = ({ recipeId, initialState = false }: FavoriteButtonProps) => {
   const { state } = useAuth();
 
   const [isFavorited, setIsFavorited] = useState(initialState);

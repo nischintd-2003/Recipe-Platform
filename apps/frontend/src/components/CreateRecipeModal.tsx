@@ -25,18 +25,13 @@ import {
 } from "../validation/recipe.schema";
 import { isAxiosError } from "axios";
 import {
-  InitialCreateRecipeForm,
-  type Recipe,
+  InitialCreateRecipeForm
 } from "../interfaces/recipe.interface";
 import ImageUpload from "./ImageUpload";
+import type { CreateRecipeModalProps } from "../interfaces/props.interface";
 
-interface Props {
-  open: boolean;
-  onClose: () => void;
-  recipeToEdit?: Recipe;
-}
 
-const CreateRecipeModal = ({ open, onClose, recipeToEdit }: Props) => {
+const CreateRecipeModal = ({ open, onClose, recipeToEdit }: CreateRecipeModalProps) => {
   const createRecipeMutation = useCreateRecipeMutation();
   const updateRecipeMutation = useUpdateRecipeMutation();
 
