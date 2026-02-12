@@ -30,7 +30,10 @@ export class AuthService {
   }
 
   static async login(email: string, password: string) {
-    const user = await UserRepository.findByEmail(email);
+    const user = await UserRepository.createQueryBuilder("user")
+      .addSelect("user.password")
+      .where("user.email = :email", { email })
+      .getOne();
     if (!user) {
       throw new AppError("Invalid email or password", 401);
     }
@@ -44,6 +47,8 @@ export class AuthService {
       { expiresIn: "3d" },
     );
 
-    return { user, token };
+    const { password: _password, ...safeUser } = user;
+
+    return { user: safeUser, token };
   }
 }
