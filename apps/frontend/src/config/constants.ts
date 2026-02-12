@@ -95,6 +95,8 @@ export const MESSAGES = {
     RECIPE_BACK: "Back to Recipes",
     REVIEWS: "reviews",
     INGRIDIENTS: "Ingredients",
+    CREATED_BY: "Created by",
+    INSTRUCTIONS: "Instructions",
   },
   MY_RECIPE: {
     TITLE: "My Recipes",
@@ -125,6 +127,7 @@ export const BUTTON = {
   FILTERS: "Filters",
   CLEAR_ALL: "Clear All",
   SHOW_RESULTS: "Show Results",
+  GO_HOME: "Go Home",
 };
 
 export const COMPONENTS = {

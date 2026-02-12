@@ -191,7 +191,7 @@ const RecipeDetails = () => {
           </Avatar>
           <Box>
             <Typography variant="subtitle2" color="text.primary">
-              Created by
+              {MESSAGES.RECIPE_DETAILS.CREATED_BY}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {recipe.user?.email.split("@")[0] || "Unknown Chef"}
@@ -241,7 +241,7 @@ const RecipeDetails = () => {
         {/* Right Column: Steps */}
         <Box>
           <Typography variant="h5" fontWeight={700} gutterBottom>
-            Instructions
+            {MESSAGES.RECIPE_DETAILS.INSTRUCTIONS}
           </Typography>
           <List sx={{ p: 0 }}>
             {stepsList?.map((step, index) => (

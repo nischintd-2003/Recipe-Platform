@@ -85,12 +85,12 @@ const Navbar = () => {
             )}
 
             <Typography
-              variant="h6"
+              variant="h5"
               component="div"
               color="primary"
               sx={{
-                fontWeight: 700,
-                letterSpacing: 1,
+                fontWeight: 900,
+                letterSpacing: 4,
                 cursor: "pointer",
               }}
               onClick={() => navigate(ROUTES.HOME)}
@@ -207,7 +207,17 @@ const Navbar = () => {
                 variant="outlined"
                 color="primary"
                 onClick={() => setAuthOpen(true)}
-                sx={{ borderRadius: 2 }}
+                sx={{
+                  borderRadius: 2,
+                  borderWidth: "2px",
+                  fontWeight: "bold",
+                  borderColor: "primary.main",
+                  "&:hover": {
+                    borderWidth: "2px",
+                    borderColor: "primary.dark",
+                    backgroundColor: "rgba(0, 0, 0, 0.04)",
+                  },
+                }}
               >
                 {BUTTON.LOGIN}
               </Button>

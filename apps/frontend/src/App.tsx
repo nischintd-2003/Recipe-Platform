@@ -12,6 +12,7 @@ const Home = lazy(() => import("./pages/Home"));
 const RecipeDetails = lazy(() => import("./pages/RecipeDetails"));
 const MyRecipes = lazy(() => import("./pages/MyRecipes"));
 const Favorites = lazy(() => import("./pages/Favorites"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
               <Route path={ROUTES.MY_RECIPES} element={<MyRecipes />} />
               <Route path={ROUTES.FAVORITES} element={<Favorites />} />
             </Route>
+
+            {/* Catch-All Routes */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
 
