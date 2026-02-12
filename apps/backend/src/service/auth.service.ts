@@ -2,8 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
 import { UserRepository } from "../repositories/user.repository.js";
-import { User } from "../entities/User.entity.js";
 import { AppError } from "../utils/app.error.js";
+import { AuthResponseDTO, PublicUserDTO } from "../dto/auth.dto.js";
 
 const SALT_ROUNDS = 10;
 
@@ -12,7 +12,7 @@ export class AuthService {
     name: string,
     email: string,
     password: string,
-  ): Promise<User> {
+  ): Promise<PublicUserDTO> {
     const existingUser = await UserRepository.findByEmail(email);
     if (existingUser) {
       throw new AppError("User already exists with this email", 409);
@@ -26,10 +26,15 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return UserRepository.save(user);
+    const saved = await UserRepository.save(user);
+
+    return { id: saved.id, name: saved.name, email: saved.email };
   }
 
-  static async login(email: string, password: string) {
+  static async login(
+    email: string,
+    password: string,
+  ): Promise<AuthResponseDTO> {
     const user = await UserRepository.createQueryBuilder("user")
       .addSelect("user.password")
       .where("user.email = :email", { email })
@@ -47,8 +52,11 @@ export class AuthService {
       { expiresIn: "3d" },
     );
 
-    const { password: _password, ...safeUser } = user;
-
-    return { user: safeUser, token };
+    const userDTO: PublicUserDTO = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
+    return { user: userDTO, token };
   }
 }
