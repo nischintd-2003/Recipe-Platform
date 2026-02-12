@@ -145,7 +145,6 @@ describe('Recipe Integration Tests', () => {
     const recipeId = createRes.body.id;
 
     if (!recipeId) {
-      console.error("TEST SETUP FAILED:", createRes.body);
       throw new Error("Recipe creation failed during test setup");
     }
 
