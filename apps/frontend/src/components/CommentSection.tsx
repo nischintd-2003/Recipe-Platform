@@ -7,6 +7,8 @@ import {
   Divider,
   Alert,
   CircularProgress,
+  Stack,
+  Skeleton,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import { useAuth } from "../context/auth.context";
@@ -65,8 +67,6 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
     }
   };
 
-  if (isLoading) return <CircularProgress size={20} />;
-
   return (
     <Box mt={6}>
       <Typography variant="h5" fontWeight={700} gutterBottom>
@@ -77,7 +77,28 @@ const CommentSection = ({ recipeId }: CommentSectionProps) => {
 
       {/* Comment List */}
       <Box sx={{ mb: 4 }}>
-        {comments?.length === 0 ? (
+        {isLoading ? (
+          // SKELETON LOADING STATE
+          <Stack spacing={3}>
+            {[1, 2, 3].map((i) => (
+              <Box key={i}>
+                <Box display="flex" gap={2} alignItems="center" mb={1}>
+                  <Skeleton variant="circular" width={40} height={40} />
+                  <Box>
+                    <Skeleton variant="text" width={120} height={24} />
+                    <Skeleton variant="text" width={80} height={16} />
+                  </Box>
+                </Box>
+
+                <Skeleton
+                  variant="rectangular"
+                  height={60}
+                  sx={{ borderRadius: 1, ml: 7 }}
+                />
+              </Box>
+            ))}
+          </Stack>
+        ) : comments?.length === 0 ? (
           <Typography color="text.secondary" fontStyle="italic">
             {COMPONENTS.COMMENTS_SECTION.NO_COMMENTS_YET}
           </Typography>
