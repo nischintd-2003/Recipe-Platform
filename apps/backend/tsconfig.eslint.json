@@ -2,6 +2,9 @@
   "extends": "./tsconfig.json",
   "include": [
     "src",
-    "eslint.config.js"
-  ]
+    "test",
+    "eslint.config.js",
+    "vitest.config.ts"
+  ],
+  "exclude": ["node_modules"]
 }
