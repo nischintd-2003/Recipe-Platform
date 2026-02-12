@@ -1,7 +1,7 @@
 import { AppDataSource } from "../config/datasource.js";
 import { Recipe } from "../entities/Recipe.entity.js";
 import { User } from "../entities/User.entity.js";
-import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
+import { CreateRecipeDTO } from "../dto/recipe.dto.js";
 import { RecipeSearchFilter } from "../interfaces/recipeSearchFilter.interface.js";
 import { FavouriteRepository } from "../repositories/favourite.repository.js";
 import { RatingRepository } from "../repositories/rating.repository.js";

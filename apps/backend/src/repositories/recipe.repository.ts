@@ -1,7 +1,7 @@
 import { DeepPartial } from "typeorm";
 import { AppDataSource } from "../config/datasource.js";
 import { Recipe } from "../entities/Recipe.entity.js";
-import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
+import { CreateRecipeDTO } from "../dto/recipe.dto.js";
 import { RecipeSearchFilter } from "../interfaces/recipeSearchFilter.interface.js";
 import { RawRecipeData } from "../interfaces/rawRecipe.interface.js";
 
