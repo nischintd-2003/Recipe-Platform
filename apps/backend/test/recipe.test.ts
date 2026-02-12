@@ -75,5 +75,119 @@ describe('Recipe Integration Tests', () => {
      
      expect(response.status).toBe(401);
   });
+  // Test : Get All Recipes
+  it('should retrieve a list of recipes', async () => {
+    const recipeData = {
+      title: 'Salad',
+      ingredients: 'Lettuce, Tomato',
+      steps: 'Chop and mix',
+      prepTime: 5,
+      userId: userId 
+    };
+    
+    await request(app)
+      .post('/api/recipe')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send(recipeData);
+
+    
+    const response = await request(app).get('/api/recipe');
+
+    
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toBeGreaterThanOrEqual(1);
+    expect(response.body[0]).toHaveProperty('title');
+  });
+
+  // Test : Update Recipe
+  it('should update a recipe successfully', async () => {
+    
+    const createRes = await request(app)
+      .post('/api/recipe')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        title: 'Original Title',
+        ingredients: 'Original Ingredients',
+        steps: 'Original Steps',
+        prepTime: 10
+      });
+    const recipeId = createRes.body.id;
+
+    
+    const response = await request(app)
+      .patch(`/api/recipe/${recipeId}`)
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        title: 'Updated Title'
+      });
+
+    
+    expect(response.status).toBe(200);
+    expect(response.body.title).toBe('Updated Title');
+    
+    expect(response.body.ingredients).toBe('Original Ingredients');
+  });
+
+  // Test : Delete Recipe
+  it('should delete a recipe', async () => {
+    
+    const createRes = await request(app)
+      .post('/api/recipe')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({ 
+        title: 'Recipe To Delete', 
+        ingredients: 'Ingredient 1, Ingredient 2', 
+        steps: 'Step 1: Do this. Step 2: Do that.', 
+        prepTime: 10 
+      });
+    
+    const recipeId = createRes.body.id;
+
+    if (!recipeId) {
+      console.error("TEST SETUP FAILED:", createRes.body);
+      throw new Error("Recipe creation failed during test setup");
+    }
+
+    const response = await request(app)
+      .delete(`/api/recipe/${recipeId}`)
+      .set('Authorization', `Bearer ${authToken}`);
+
+    expect(response.status).toBe(204);
+
+    const fetchResponse = await request(app).get(`/api/recipe/${recipeId}`);
+    expect(fetchResponse.status).toBe(404);
+  });
+
+  // Test : Security Check
+  it('should prevent updating someone else\'s recipe', async () => {
+   
+    const createRes = await request(app)
+      .post('/api/recipe')
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({ 
+        title: 'User A Recipe', 
+        ingredients: 'Ingredient A, Ingredient B', 
+        steps: 'Step 1: Mix well. Step 2: Bake.', 
+        prepTime: 10 
+      });
+    
+    const recipeId = createRes.body.id;
+
+    if (!recipeId) {
+      throw new Error("Recipe creation failed during test setup for security check");
+    }
+
+    const userB = await createAuthenticatedUser();
+    
+    const response = await request(app)
+      .delete(`/api/recipe/${recipeId}`)
+      .set('Authorization', `Bearer ${userB.token}`);
+
+    expect(response.status).toBe(403); 
+    
+    const check = await request(app).get(`/api/recipe/${recipeId}`);
+    expect(check.status).toBe(200);
+  });
 });
 

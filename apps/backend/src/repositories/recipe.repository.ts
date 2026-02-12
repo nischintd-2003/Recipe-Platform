@@ -2,7 +2,6 @@ import { DeepPartial } from "typeorm";
 import { AppDataSource } from "../config/datasource.js";
 import { Recipe } from "../entities/Recipe.entity.js";
 import { CreateRecipeDTO } from "../interfaces/createRecipe.interface.js";
-import { AppError } from "../utils/app.error.js";
 import { RecipeSearchFilter } from "../interfaces/recipeSearchFilter.interface.js";
 import { RawRecipeData } from "../interfaces/rawRecipe.interface.js";
 
@@ -10,27 +9,23 @@ export class RecipeRepository {
   private repository = AppDataSource.getRepository(Recipe);
 
   async createRecipe(data: CreateRecipeDTO): Promise<Recipe> {
-    try {
-      const recipeData: DeepPartial<Recipe> = {
-        title: data.title,
-        ingredients: data.ingredients,
-        steps: data.steps,
-        user: { id: data.userId },
-      };
+    const recipeData: DeepPartial<Recipe> = {
+      title: data.title,
+      ingredients: data.ingredients,
+      steps: data.steps,
+      user: { id: data.userId },
+    };
 
-      if (data.prepTime !== undefined) {
-        recipeData.prepTime = data.prepTime;
-      }
-
-      if (data.image) {
-        recipeData.imageUrl = data.image;
-      }
-
-      const recipe = this.repository.create(recipeData);
-      return await this.repository.save(recipe);
-    } catch {
-      throw new AppError("Failed to create recipe", 500);
+    if (data.prepTime !== undefined) {
+      recipeData.prepTime = data.prepTime;
     }
+
+    if (data.image) {
+      recipeData.imageUrl = data.image;
+    }
+
+    const recipe = this.repository.create(recipeData);
+    return await this.repository.save(recipe);
   }
 
   async getAllRecipesOfUser(
@@ -38,66 +33,50 @@ export class RecipeRepository {
     page = 1,
     limit = 10,
   ): Promise<Recipe[]> {
-    try {
-      const qb = this.repository
-        .createQueryBuilder("recipe")
-        .leftJoinAndSelect("recipe.user", "user")
-        .leftJoin("recipe.ratings", "rating")
-        .where("recipe.userId = :userId", { userId })
+    const qb = this.repository
+      .createQueryBuilder("recipe")
+      .leftJoinAndSelect("recipe.user", "user")
+      .leftJoin("recipe.ratings", "rating")
+      .where("recipe.userId = :userId", { userId })
 
-        .addSelect("AVG(rating.value)", "averageRating")
-        .addSelect("COUNT(rating.id)", "ratingCount")
+      .addSelect("AVG(rating.value)", "averageRating")
+      .addSelect("COUNT(rating.id)", "ratingCount")
 
-        .groupBy("recipe.id")
-        .addGroupBy("user.id")
+      .groupBy("recipe.id")
+      .addGroupBy("user.id")
 
-        .orderBy("recipe.createdAt", "DESC")
-        .skip((page - 1) * limit)
-        .take(limit);
+      .orderBy("recipe.createdAt", "DESC")
+      .skip((page - 1) * limit)
+      .take(limit);
 
-      const { entities, raw } = await qb.getRawAndEntities();
+    const { entities, raw } = await qb.getRawAndEntities();
 
-      const typedRaw = raw as RawRecipeData[];
+    const typedRaw = raw as RawRecipeData[];
 
-      return entities.map((recipe) => {
-        const rawData = typedRaw.find((r) => r.recipe_id === recipe.id);
-        return {
-          ...recipe,
-          averageRating: rawData ? Number(rawData.averageRating) : 0,
-          ratingCount: rawData ? Number(rawData.ratingCount) : 0,
-        };
-      });
-    } catch {
-      throw new AppError("Failed to fetch user recipes", 500);
-    }
+    return entities.map((recipe) => {
+      const rawData = typedRaw.find((r) => r.recipe_id === recipe.id);
+      return {
+        ...recipe,
+        averageRating: rawData ? Number(rawData.averageRating) : 0,
+        ratingCount: rawData ? Number(rawData.ratingCount) : 0,
+      };
+    });
   }
 
   async getRecipeById(id: number) {
-    try {
-      return await this.repository.findOne({
-        where: { id },
-        relations: ["user"],
-      });
-    } catch {
-      throw new AppError("Failed to fetch recipe", 500);
-    }
+    return await this.repository.findOne({
+      where: { id },
+      relations: ["user"],
+    });
   }
 
   async updateRecipe(id: number, data: Partial<Recipe>) {
-    try {
-      await this.repository.update({ id }, data);
-      return this.getRecipeById(id);
-    } catch {
-      throw new AppError("Failed to update recipe", 500);
-    }
+    await this.repository.update({ id }, data);
+    return this.getRecipeById(id);
   }
 
   async deleteRecipe(id: number) {
-    try {
-      return this.repository.delete({ id });
-    } catch {
-      throw new AppError("Failed to delete recipe", 500);
-    }
+    return this.repository.delete({ id });
   }
 
   async searchAndFilter(options: RecipeSearchFilter) {

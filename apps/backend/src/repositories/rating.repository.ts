@@ -1,34 +1,25 @@
 import { AppDataSource } from "../config/datasource.js";
 import { Rating } from "../entities/Rating.entity.js";
-import { AppError } from "../utils/app.error.js";
 
 export class RatingRepository {
   private repo = AppDataSource.getRepository(Rating);
 
   findByUserAndRecipe(userId: number, recipeId: number) {
-    try {
-      return this.repo.findOne({
-        where: {
-          user: { id: userId },
-          recipe: { id: recipeId },
-        },
-      });
-    } catch {
-      throw new AppError("Failed to find recipe", 500);
-    }
+    return this.repo.findOne({
+      where: {
+        user: { id: userId },
+        recipe: { id: recipeId },
+      },
+    });
   }
 
   createRating(value: number, userId: number, recipeId: number) {
-    try {
-      const rating = this.repo.create({
-        value,
-        user: { id: userId },
-        recipe: { id: recipeId },
-      });
-      return this.repo.save(rating);
-    } catch {
-      throw new AppError("Failed to add rating", 500);
-    }
+    const rating = this.repo.create({
+      value,
+      user: { id: userId },
+      recipe: { id: recipeId },
+    });
+    return this.repo.save(rating);
   }
 
   async getAverageForRecipe(recipeId: number) {
