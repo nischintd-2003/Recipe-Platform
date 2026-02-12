@@ -1,7 +1,12 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils/app.error.js";
 
-export function errorMiddleware(err: Error, _req: Request, res: Response) {
+export function errorMiddleware(
+  err: Error,
+  _req: Request,
+  res: Response,
+  _next: NextFunction,
+) {
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({
       status: "error",

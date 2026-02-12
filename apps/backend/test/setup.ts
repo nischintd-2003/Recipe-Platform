@@ -1,8 +1,5 @@
 import { AppDataSource } from '../src/config/datasource.js';
 import { beforeAll, afterAll, beforeEach } from 'vitest';
-import dotenv from 'dotenv';
-
-dotenv.config({ path: '.env.test' });
 
 beforeAll(async () => {
   if (process.env.DB_NAME !== 'recipe_test') {
