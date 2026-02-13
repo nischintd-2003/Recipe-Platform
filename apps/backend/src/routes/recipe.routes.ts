@@ -8,6 +8,8 @@ import { optionalAuthMiddleware } from "../middleware/optionalAuth.middleware.js
 import { validate } from "../middleware/validate.middleware.js";
 import {
   createRecipeSchema,
+  paginationSchema,
+  recipeIdSchema,
   updateRecipeSchema,
 } from "../validation/recipe.validation.js";
 
@@ -54,7 +56,11 @@ const recipeRouter: Router = Router();
  *       200:
  *         description: List of recipes
  */
-recipeRouter.get("/", RecipeController.getAllRecipes);
+recipeRouter.get(
+  "/",
+  validate(paginationSchema),
+  RecipeController.getAllRecipes,
+);
 
 /**
  * @swagger
@@ -81,7 +87,12 @@ recipeRouter.get("/", RecipeController.getAllRecipes);
  *       401:
  *         description: Unauthorized
  */
-recipeRouter.get("/user", authMiddleware, RecipeController.getAllRecipesOfUser);
+recipeRouter.get(
+  "/user",
+  authMiddleware,
+  validate(paginationSchema),
+  RecipeController.getAllRecipesOfUser,
+);
 
 /**
  * @swagger
@@ -104,6 +115,7 @@ recipeRouter.get("/user", authMiddleware, RecipeController.getAllRecipesOfUser);
 recipeRouter.get(
   "/:recipeId",
   optionalAuthMiddleware,
+  validate(recipeIdSchema),
   RecipeController.getRecipeById,
 );
 
@@ -218,6 +230,7 @@ recipeRouter.patch(
 recipeRouter.delete(
   "/:recipeId",
   authMiddleware,
+  validate(recipeIdSchema),
   RecipeController.deleteRecipe,
 );
 

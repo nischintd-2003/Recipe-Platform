@@ -42,3 +42,28 @@ export const ratingSchema = z.object({
     value: z.number().min(1).max(5),
   }),
 });
+
+export const paginationSchema = z.object({
+  query: z.object({
+    page: z.coerce.number().min(1).default(1),
+    limit: z.coerce.number().min(1).max(50).default(10),
+    q: z.string().optional(),
+    sort: z.enum(["latest", "rating"]).optional(),
+    minRating: z.coerce.number().min(0).max(5).optional(),
+    maxPrepTime: z.coerce.number().min(1).optional(),
+  }),
+});
+
+export const recipeIdSchema = z.object({
+  params: z.object({
+    recipeId: z.coerce
+      .number({
+        error: (iss) =>
+          iss.code === "invalid_type"
+            ? "Recipe ID must be a number"
+            : undefined,
+      })
+      .int()
+      .positive(),
+  }),
+});

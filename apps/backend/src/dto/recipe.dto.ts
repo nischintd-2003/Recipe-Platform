@@ -7,7 +7,6 @@ export interface CreateRecipeDTO {
   userId: number;
 }
 
-
 export interface RecipeResponseDTO {
   id: number;
   title: string;

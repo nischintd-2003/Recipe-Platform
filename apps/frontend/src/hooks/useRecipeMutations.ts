@@ -17,6 +17,7 @@ export const useCreateRecipeMutation = () => {
     mutationFn: (data: CreateRecipePayload) => createRecipe(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      queryClient.invalidateQueries({ queryKey: ["my-recipes"] });
       navigate("/");
     },
   });
@@ -83,6 +84,7 @@ export const useDeleteRecipeMutation = () => {
     mutationFn: (id: number) => deleteRecipe(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      queryClient.invalidateQueries({ queryKey: ["my-recipes"] });
       navigate("/", { replace: true });
     },
   });

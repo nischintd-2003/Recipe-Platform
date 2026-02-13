@@ -1,3 +1,5 @@
+import { COMPONENTS, CONFIG } from "../config/constants";
+
 export interface Recipe {
   id: number;
   title: string;
@@ -44,10 +46,10 @@ export interface RecipeFilters {
 export const InitialRecipeFilters: RecipeFilters = {
   q: "",
   minRating: 0,
-  maxPrepTime: 120,
+  maxPrepTime: COMPONENTS.RECIPE_FILTER.MAX_NUM_TIME,
   sort: "latest",
   page: 1,
-  limit: 0,
+  limit: CONFIG.PAGINATION_LIMIT,
 };
 
 export interface FavoriteItem {

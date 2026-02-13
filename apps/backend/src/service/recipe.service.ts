@@ -95,7 +95,7 @@ export class RecipeService {
     if (data.ingredients) updateData.ingredients = data.ingredients;
     if (data.steps) updateData.steps = data.steps;
     if (data.prepTime !== undefined) updateData.prepTime = data.prepTime;
-    if (data.image) updateData.imageUrl = data.image;
+    if (data.image !== undefined) updateData.imageUrl = data.image;
 
     return recipeRepo.updateRecipe(recipeId, updateData);
   }
