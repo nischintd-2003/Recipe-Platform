@@ -70,7 +70,23 @@ export const recipeIdSchema = z.object({
 
 export const commentParamsSchema = z.object({
   params: z.object({
-    recipeId: z.coerce.number().int().positive(), 
-    commentId: z.coerce.number().int().positive(),
+    recipeId: z.coerce
+      .number({
+        error: (iss) =>
+          iss.code === "invalid_type"
+            ? "Recipe ID must be a number"
+            : undefined,
+      })
+      .int()
+      .positive(),
+    commentId: z.coerce
+      .number({
+        error: (iss) =>
+          iss.code === "invalid_type"
+            ? "Comment ID must be a number"
+            : undefined,
+      })
+      .int()
+      .positive(),
   }),
 });

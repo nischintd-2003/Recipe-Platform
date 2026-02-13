@@ -2,7 +2,11 @@ import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { CommentController } from "../controllers/comment.controller.js";
 import { validate } from "../middleware/validate.middleware.js";
-import { commentParamsSchema, commentSchema } from "../validation/recipe.validation.js";
+import {
+  commentParamsSchema,
+  commentSchema,
+  recipeIdSchema,
+} from "../validation/recipe.validation.js";
 
 const commentRouter: Router = Router({ mergeParams: true });
 
@@ -41,6 +45,7 @@ const commentRouter: Router = Router({ mergeParams: true });
 commentRouter.post(
   "/",
   authMiddleware,
+  validate(recipeIdSchema),
   validate(commentSchema),
   CommentController.addComment,
 );
@@ -63,7 +68,7 @@ commentRouter.post(
  *       404:
  *         description: Recipe not found
  */
-commentRouter.get("/", CommentController.getComments);
+commentRouter.get("/", validate(recipeIdSchema), CommentController.getComments);
 
 /**
  * @swagger
@@ -107,8 +112,8 @@ commentRouter.get("/", CommentController.getComments);
 commentRouter.patch(
   "/:commentId",
   authMiddleware,
-  validate(commentSchema),
   validate(commentParamsSchema),
+  validate(commentSchema),
   CommentController.updateComment,
 );
 
