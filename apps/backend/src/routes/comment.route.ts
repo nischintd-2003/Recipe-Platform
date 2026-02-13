@@ -2,7 +2,7 @@ import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { CommentController } from "../controllers/comment.controller.js";
 import { validate } from "../middleware/validate.middleware.js";
-import { commentSchema } from "../validation/recipe.validation.js";
+import { commentParamsSchema, commentSchema } from "../validation/recipe.validation.js";
 
 const commentRouter: Router = Router({ mergeParams: true });
 
@@ -108,6 +108,7 @@ commentRouter.patch(
   "/:commentId",
   authMiddleware,
   validate(commentSchema),
+  validate(commentParamsSchema),
   CommentController.updateComment,
 );
 
@@ -143,6 +144,7 @@ commentRouter.patch(
 commentRouter.delete(
   "/:commentId",
   authMiddleware,
+  validate(commentParamsSchema),
   CommentController.deleteComment,
 );
 

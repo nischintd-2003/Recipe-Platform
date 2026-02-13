@@ -67,3 +67,10 @@ export const recipeIdSchema = z.object({
       .positive(),
   }),
 });
+
+export const commentParamsSchema = z.object({
+  params: z.object({
+    recipeId: z.coerce.number().int().positive(), 
+    commentId: z.coerce.number().int().positive(),
+  }),
+});
