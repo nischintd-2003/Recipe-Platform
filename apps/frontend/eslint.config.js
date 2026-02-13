@@ -7,7 +7,7 @@ export default [
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.eslint.json"],
+        project: ["./tsconfig.eslint.json","./tsconfig.test.json"],
         tsconfigRootDir: path.resolve(),
       },
     },
